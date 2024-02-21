@@ -18,6 +18,7 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        xInput = 0;      //Bug fix. x input was being saved from a previous state. Meant would sometimes attack left when facing right.
 
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
             comboCounter = 0;
