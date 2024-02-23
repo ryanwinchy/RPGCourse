@@ -12,6 +12,8 @@ public class PlayerDashState : PlayerState
     {
         base.Enter();
 
+        player.skill.clone.CreateClone(player.transform);       //Whenever we enter dash, a clown will spawn.
+
         stateTimer = player.dashDuration;
         
         

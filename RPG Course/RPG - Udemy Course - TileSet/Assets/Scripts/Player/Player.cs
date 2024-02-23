@@ -20,7 +20,7 @@ public class Player : Entity
     public float dashDuration;
     public float dashDir { get; private set; }
 
-
+    public SkillManager skill { get; private set; }
 
 
     #region States
@@ -61,6 +61,7 @@ public class Player : Entity
     {
         base.Start();          //Runs base start (entity), which gets ref to rb and animator.
 
+        skill = SkillManager.instance;         //This means in other scripts, can just type player.skill instead of SkillManager.instance.
         stateMachine.Initialize(idleState);
 
     }
