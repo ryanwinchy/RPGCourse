@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCounterAttackState : PlayerState
 {
+
+    bool canCreateClone;
     public PlayerCounterAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
@@ -12,6 +12,7 @@ public class PlayerCounterAttackState : PlayerState
     {
         base.Enter();
 
+        canCreateClone = true;
         stateTimer = player.counterAttckDuration;
         player.anim.SetBool("SuccessfulCounterAttack", false);     //When gets into counter attack state, set successful to false for now.
     }
@@ -35,10 +36,16 @@ public class PlayerCounterAttackState : PlayerState
             {
                 stateTimer = 100f;     //Just an arbitrary big num, so doesnt exit state because of timer if hits.
                 player.anim.SetBool("SuccessfulCounterAttack", true);     //Make anim go to successful counter. On this anim, we have an event to make triggerCalled = true, so we exit to idle below.
-                
+
+                if (canCreateClone)
+                {
+                    canCreateClone = false;       //So if you counter two at once, only creates one clone.
+                    player.skill.clone.CreateCloneOnCounter(hit.transform);
+                }
+
             }
         }
-        
+
         if (stateTimer < 0 || triggerCalled)        //If counter was not successful, exit state based on timer of counter attempt state (this).
             stateMachine.ChangeState(player.idleState);
 

@@ -22,6 +22,12 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.R))
+            stateMachine.ChangeState(player.blackholeState);
+
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())        //Checks for input, and that player does not already have a sword. The var must be null.
+            stateMachine.ChangeState(player.aimSwordState);
+
         if (Input.GetKeyDown(KeyCode.Q))
             stateMachine.ChangeState(player.counterAttackState);
 
@@ -33,5 +39,14 @@ public class PlayerGroundedState : PlayerState
 
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
             stateMachine.ChangeState(player.jumpState);
+    }
+
+    bool HasNoSword()
+    {
+        if (!player.sword)        //If no sword, return. Enter aim state.
+            return true;
+
+        player.sword.GetComponent<SwordSkillController>().ReturnSword();       //If sword, make it return.
+        return false;
     }
 }

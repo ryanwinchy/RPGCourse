@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CloneSkillController : MonoBehaviour    //This script is just settings for the clone skill. Like telling clone where to spawn, and cooldowns.
@@ -15,6 +12,11 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
     [SerializeField] Transform attackCheck;
     [SerializeField] float attackCheckRadius = 0.8f;
     Transform closestEnemy;
+    int facingDir = 1;
+
+    bool canDuplicateClone;
+    float chanceToDuplicate;
+
 
     private void Awake()
     {
@@ -30,17 +32,21 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
         {
             spriteRenderer.color = new Color(1, 1, 1, (spriteRenderer.color.a - (Time.deltaTime * fadeSpeed)));    //Fade out clone when timer ends.
 
-            if (spriteRenderer.color.a < 0 )     //Once faded, delete game object.
+            if (spriteRenderer.color.a < 0)     //Once faded, delete game object.
                 Destroy(gameObject);
         }
     }
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack)    //Clone duration could be setup in this script, but better to pass from clone skill so set vars all in skill manager.
+    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate)    //Clone duration could be setup in this script, but better to pass from clone skill so set vars all in skill manager.
     {
+        closestEnemy = _closestEnemy;
+        canDuplicateClone = _canDuplicateClone;
+        chanceToDuplicate = _chanceToDuplicate;
+
         if (canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 3));       //If can attack (clone attack ability unlocked), do a random attack out the 3.
 
 
-        transform.position = newTransform.position;
+        transform.position = newTransform.position + offset;
         cloneTimer = cloneDuration;         //When clone setup, make timer equal to clone duration.
 
 
@@ -49,7 +55,7 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
 
     private void AnimationTrigger()
     {
-        cloneTimer = - 1f;          //So after attack, immediately triggers end of timer so disappears.
+        cloneTimer = -1f;          //So after attack, immediately triggers end of timer so disappears.
     }
 
     private void AttackTrigger()     //Play on animation frame attack hits.
@@ -58,38 +64,36 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
 
         foreach (Collider2D hit in colliders)
         {
-            if (hit.GetComponent<Enemy>() != null)      //if hit an enemy in attack circle.
+            if (hit.GetComponent<Enemy>() != null)       //if hit an enemy in attack circle.
+            {
                 hit.GetComponent<Enemy>().Damage();         //call that enemies damage function.
+
+                if (canDuplicateClone)         //When clone's attack hits, chance to make another clone.
+                {
+                    if (Random.Range(0, 100) < chanceToDuplicate)          //This will be a stat. But this currently is a 35% chance to spawn clone.
+                    {
+                        SkillManager.instance.clone.CreateClone(hit.transform, new Vector3(1.5f * facingDir, 0));   //New clone facing opposite original clone. Can sandwich enemies.
+                    }
+                }
+            }
         }
     }
 
     void FaceClosestTarget()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 25);   //In radius of 25 around the clone pick up all colliders.
 
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider2D hit in colliders)   //for each collider in the 25 radius.
+        if (closestEnemy != null)
         {
-            if ((hit.GetComponent<Enemy>() != null))      //If its an enemy.
+
+            if (transform.position.x > closestEnemy.position.x)
             {
-                float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);    //get distance from clone to enemy collider it found.
-
-                if (distanceToEnemy < closestDistance)  //If distance to this enemy is less than current closest, then set closest var to the new closest's transform.
-                {
-                    closestDistance = distanceToEnemy;  //So loops until finds closest one.
-                    closestEnemy = hit.transform;
-                }   
-                    
-
+                facingDir = -1;          //If flip, track facing dir for other functions.
+                transform.Rotate(0, 180, 0);
             }
         }
-
-        if ((closestEnemy != null) && (transform.position.x > closestEnemy.position.x))
-            transform.Rotate(0, 180, 0);
 
 
     }
 
-    
+
 }

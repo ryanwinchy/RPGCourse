@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : Entity
 {
 
+    new public Camera camera { get; private set; }
+
     [Header("Attack details")]
     public Vector2[] attackMovement;
     public float counterAttckDuration = 0.2f;
@@ -14,6 +16,7 @@ public class Player : Entity
     [Header("Move info")]
     public float moveSpeed = 12f;
     public float jumpForce;
+    public float swordReturnImpact;
 
     [Header("Dash info")]
     public float dashSpeed;
@@ -21,6 +24,7 @@ public class Player : Entity
     public float dashDir { get; private set; }
 
     public SkillManager skill { get; private set; }
+    public GameObject sword { get; private set; }
 
 
     #region States
@@ -37,11 +41,18 @@ public class Player : Entity
     public PlayerPrimaryAttackState primaryAttack { get; private set; }
     public PlayerCounterAttackState counterAttackState { get; private set; }
 
+    public PlayerAimSwordState aimSwordState { get; private set; }
+    public PlayerCatchSwordState catchSwordState { get; private set; }
+
+    public PlayerBlackholeState blackholeState { get; private set; }
+
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
+
+        camera = FindObjectOfType<Camera>();     //For use in aim state.
         
         stateMachine = new PlayerStateMachine();
 
@@ -55,6 +66,11 @@ public class Player : Entity
 
         primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
         counterAttackState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
+
+        aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword"); //Sending camera, as when aiming need camera to find mouse pos so can flip sprite when aiming.
+        catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
+
+        blackholeState = new PlayerBlackholeState(this, stateMachine, "Jump");
     }
 
     protected override void Start()
@@ -75,7 +91,23 @@ public class Player : Entity
 
 
         CheckForDashInput();
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            skill.crystal.CanUseSkill();           //Check if cooldown finished, if has, use skill.
+        }
     }
+
+    public void AssignNewSword(GameObject newSword)      //When throw a sword, so can only have one at a time.
+    {
+        sword = newSword;
+    }
+
+    public void CatchSword()
+    {
+        stateMachine.ChangeState(catchSwordState);
+        Destroy(sword);
+    }               
 
     public IEnumerator BusyFor(float _seconds)
     {

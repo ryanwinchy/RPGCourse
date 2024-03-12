@@ -16,6 +16,7 @@ public class Enemy : Entity                //Basically sets up new state machine
     public float moveSpeed;
     public float idleTime;
     public float battleTime;   //How long he should be in battle (agro) state.
+    float defaultMoveSpeed;  
 
     [Header("Attack Info")]
     public float attackDistance;
@@ -29,6 +30,8 @@ public class Enemy : Entity                //Basically sets up new state machine
     {
        base.Awake();
        stateMachine = new EnemyStateMachine();
+
+        defaultMoveSpeed = moveSpeed;         //As speed may be changed by other methods, need the default.
     }
 
     protected override void Update()
@@ -38,6 +41,28 @@ public class Enemy : Entity                //Basically sets up new state machine
         stateMachine.currentState.Update();
     }
 
+    public virtual void FreezeTime(bool freezeTime)
+    {
+        if (freezeTime)
+        {
+            moveSpeed = 0;
+            anim.speed = 0;
+        }
+        else
+        {
+            moveSpeed = defaultMoveSpeed;
+            anim.speed = 1;
+        }
+    }
+
+    protected virtual IEnumerator FreezeTimeFor(float seconds)
+    {
+        FreezeTime(true);
+        yield return new WaitForSeconds(seconds);
+        FreezeTime(false);
+    }
+
+    #region Counter Attack Window
     public virtual void OpenCounterAttackWindow()
     {
         canBeStunned = true;
@@ -49,6 +74,7 @@ public class Enemy : Entity                //Basically sets up new state machine
         canBeStunned = false;
         counterImage.SetActive(false);
     }
+    #endregion
 
     public virtual bool CanBeStunned()
     {

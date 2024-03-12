@@ -6,8 +6,11 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;       //Singleton, access from any script without reference. Put refs to all skills here, so any script can easily access any skill.
 
-    public DashSkill dash;            //Available from anywhere, as is on singleton script. get , private set so dont see in inspector.
-    public CloneSkill clone;
+    public DashSkill dash { get; private set; }           //Available from anywhere, as is on singleton script. get , private set so dont see in inspector.
+    public CloneSkill clone {  get; private set; }
+    public SwordSkill sword {  get; private set; }
+    public BlackholeSkill blackhole {  get; private set; } 
+    public CrystalSkill crystal { get; private set; }
 
     private void Awake()
     {
@@ -16,8 +19,16 @@ public class SkillManager : MonoBehaviour
         else
             instance = this;
 
+
+    }
+
+    private void Start()
+    {
         dash = GetComponent<DashSkill>();
         clone = GetComponent<CloneSkill>();
+        sword = GetComponent<SwordSkill>();
+        blackhole = GetComponent<BlackholeSkill>();
+        crystal = GetComponent<CrystalSkill>();
     }
 
 

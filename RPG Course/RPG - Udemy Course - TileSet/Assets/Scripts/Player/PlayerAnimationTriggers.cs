@@ -21,4 +21,9 @@ public class PlayerAnimationTriggers : MonoBehaviour
                 hit.GetComponent<Enemy>().Damage();         //call that enemies damage function.
         }
     }
+
+    void ThrowSword()
+    {
+        SkillManager.instance.sword.CreateSword();
+    }
 }
