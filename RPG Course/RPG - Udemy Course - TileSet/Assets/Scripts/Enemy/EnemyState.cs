@@ -36,6 +36,7 @@ public abstract class EnemyState
     public virtual void Exit()
     {
         enemyBase.anim.SetBool(animBoolName, false);
+        enemyBase.AssignLastAnimName(animBoolName);       //Whenever exit an enemy state, assign last anim played to var in the main enemy script.
     }
 
     public virtual void AnimationFinishTrigger() => triggerCalled = true;

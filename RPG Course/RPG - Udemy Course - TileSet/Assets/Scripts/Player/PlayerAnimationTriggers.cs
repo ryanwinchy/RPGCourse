@@ -17,8 +17,15 @@ public class PlayerAnimationTriggers : MonoBehaviour
 
         foreach (Collider2D hit in colliders)
         {
-            if (hit.GetComponent<Enemy>() != null)      //if hit an enemy in attack circle.
-                hit.GetComponent<Enemy>().Damage();         //call that enemies damage function.
+            if (hit.GetComponent<Enemy>() != null)       //if hit an enemy in attack circle.
+            {
+                EnemyStats _target = hit.GetComponent<EnemyStats>();      //get stats script of enemy you hit.
+
+                player.stats.DoDamage(_target);        //On player, get its stats script, run do damage using player stats on target.
+
+
+                
+            }
         }
     }
 

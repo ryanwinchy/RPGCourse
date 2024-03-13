@@ -14,6 +14,7 @@ public class EnemySkeleton : Enemy                              //Inherits from 
     public SkeletonAttackState attackState { get; private set; }
 
     public SkeletonStunnedState stunnedState { get; private set; }
+    public SkeletonDeadState deadState { get; private set; }
 
     #endregion
     protected override void Awake()
@@ -25,6 +26,7 @@ public class EnemySkeleton : Enemy                              //Inherits from 
         battleState = new SkeletonBattleState(this, stateMachine, "Move", this);  //battle state but just moving towards player, so needs move animation. It's basically an 'agro' state.
         attackState = new SkeletonAttackState(this, stateMachine, "Attack", this);
         stunnedState = new SkeletonStunnedState(this, stateMachine, "Stunned", this);
+        deadState = new SkeletonDeadState(this, stateMachine, "Idle", this);
     }
 
     protected override void Start()
@@ -49,4 +51,12 @@ public class EnemySkeleton : Enemy                              //Inherits from 
         }
        return false;
     }
+
+    public override void Die()
+    {
+        base.Die();
+
+        stateMachine.ChangeState(deadState);
+    }
+
 }

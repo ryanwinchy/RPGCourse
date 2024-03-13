@@ -82,7 +82,7 @@ public class CrystalSkillController : MonoBehaviour
         foreach (Collider2D hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)      //if hit an enemy in attack circle.
-                hit.GetComponent<Enemy>().Damage();         //call that enemies damage function.
+                hit.GetComponent<Enemy>().DamageEffect();         //call that enemies damage function.
         }
     }
 

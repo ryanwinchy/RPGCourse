@@ -20,7 +20,12 @@ public class EnemySkeletonAnimationTriggers : MonoBehaviour
         foreach (Collider2D hit in colliders)             //for each collider in the radius.
         {
             if (hit.GetComponent<Player>() != null)       //if hit player, damage player.
-                hit.GetComponent<Player>().Damage();
+            {
+
+                PlayerStats _target = hit.GetComponent<PlayerStats>();
+
+                enemy.stats.DoDamage(_target);        //Can call as entity script has ref to 'characterstats' script (stats) which has DoDamage func.
+            }
         }
     }
 

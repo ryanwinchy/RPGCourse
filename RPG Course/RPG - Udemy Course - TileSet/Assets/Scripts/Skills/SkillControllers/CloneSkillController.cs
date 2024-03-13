@@ -66,7 +66,7 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
         {
             if (hit.GetComponent<Enemy>() != null)       //if hit an enemy in attack circle.
             {
-                hit.GetComponent<Enemy>().Damage();         //call that enemies damage function.
+                hit.GetComponent<Enemy>().DamageEffect();         //call that enemies damage function.
 
                 if (canDuplicateClone)         //When clone's attack hits, chance to make another clone.
                 {
