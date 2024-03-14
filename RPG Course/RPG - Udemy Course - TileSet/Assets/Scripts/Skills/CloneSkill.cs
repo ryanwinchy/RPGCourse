@@ -32,11 +32,12 @@ public class CloneSkill : Skill
             return;                                           //So creates clone then leaves, does not proceed below to create a clone.
         }
 
-
+        
 
         GameObject newClone = Instantiate(clonePrefab);
 
-        newClone.GetComponent<CloneSkillController>().SetupClone(clonePosition, cloneDuration, canAttack, offset, FindClosestEnemy(newClone.transform), canDuplicateClone, chanceToDuplicate);
+        newClone.GetComponent<CloneSkillController>().SetupClone(clonePosition, cloneDuration, canAttack, offset, FindClosestEnemy(newClone.transform), 
+            canDuplicateClone, chanceToDuplicate, player);
     }
 
     public void CreateCloneOnDashStart()

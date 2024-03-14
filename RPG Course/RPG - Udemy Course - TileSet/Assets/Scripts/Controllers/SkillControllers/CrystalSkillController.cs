@@ -6,6 +6,7 @@ public class CrystalSkillController : MonoBehaviour
 {
     Animator animator => GetComponent<Animator>();        //Instead of start function.
     CircleCollider2D circleCollider => GetComponent<CircleCollider2D>();
+    Player player;
     
     float crystalDuration;
 
@@ -19,13 +20,14 @@ public class CrystalSkillController : MonoBehaviour
     Transform closestEnemy;
     [SerializeField] LayerMask whatIsEnemy;
 
-    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed, Transform _closestEnemy)
+    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed, Transform _closestEnemy, Player _player)
     {
         crystalDuration = _crystalDuration;
         canExplode = _canExplode;
         canMove = _canMove;
         moveSpeed = _moveSpeed;
         closestEnemy = _closestEnemy;
+        player = _player;
     }
 
     public void ChooseRandomEnemy()
@@ -82,7 +84,7 @@ public class CrystalSkillController : MonoBehaviour
         foreach (Collider2D hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)      //if hit an enemy in attack circle.
-                hit.GetComponent<Enemy>().DamageEffect();         //call that enemies damage function.
+                player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());        //access the players stats, DoMagicDamage function targeted at the hit enemy's stats.
         }
     }
 

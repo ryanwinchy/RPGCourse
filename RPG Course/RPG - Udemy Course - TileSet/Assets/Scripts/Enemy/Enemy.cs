@@ -47,6 +47,21 @@ public class Enemy : Entity                //Basically sets up new state machine
         lastAnimBoolName = _animBoolName;
     }
 
+    public override void SlowEntityBy(float _slowPercentage, float _slowDuration)
+    {
+        moveSpeed = moveSpeed * (1 - _slowPercentage);
+        anim.speed = anim.speed * (1 - _slowPercentage);
+
+        Invoke("ReturnToDefaultSpeed", _slowDuration);
+    }
+
+    protected override void ReturnToDefaultSpeed()
+    {
+        base.ReturnToDefaultSpeed();            //Base resets animator speed for entity.
+
+        moveSpeed = defaultMoveSpeed;
+    }
+
     public virtual void FreezeTime(bool freezeTime)
     {
         if (freezeTime)

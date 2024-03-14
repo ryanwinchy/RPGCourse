@@ -18,6 +18,10 @@ public class Player : Entity
     public float jumpForce;
     public float swordReturnImpact;
 
+    float defaultMoveSpeed;
+    float defaultJumpForce;
+    float defaultDashSpeed;
+
     [Header("Dash info")]
     public float dashSpeed;
     public float dashDuration;
@@ -83,6 +87,10 @@ public class Player : Entity
         skill = SkillManager.instance;         //This means in other scripts, can just type player.skill instead of SkillManager.instance.
         stateMachine.Initialize(idleState);
 
+        defaultMoveSpeed = moveSpeed;
+        defaultJumpForce = jumpForce;
+        defaultDashSpeed = dashSpeed;
+
     }
 
 
@@ -100,6 +108,26 @@ public class Player : Entity
             skill.crystal.CanUseSkill();           //Check if cooldown finished, if has, use skill.
         }
     }
+
+    public override void SlowEntityBy(float _slowPercentage, float _slowDuration)      //Overrides from entity, as slowing player diff to slowing enemy. Base is empty so dont need it. Polymorph it instead.
+    {
+        moveSpeed = moveSpeed * (1 - _slowPercentage);
+        jumpForce = jumpForce * (1 - _slowPercentage);
+        dashSpeed = dashSpeed * (1 - _slowPercentage);
+        anim.speed = anim.speed * (1 -  _slowPercentage);
+
+        Invoke("ReturnToDefaultSpeed", _slowDuration);
+    }
+
+    protected override void ReturnToDefaultSpeed()                           //Overrides from entity.
+    {
+        base.ReturnToDefaultSpeed();  //Call base as base resets animator to 1x speed.
+
+        moveSpeed = defaultMoveSpeed;
+        jumpForce = defaultJumpForce;
+        dashSpeed = defaultDashSpeed;
+    }
+
 
     public void AssignNewSword(GameObject newSword)      //When throw a sword, so can only have one at a time.
     {

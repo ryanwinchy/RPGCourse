@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CloneSkillController : MonoBehaviour    //This script is just settings for the clone skill. Like telling clone where to spawn, and cooldowns.
 {
-
+    Player player;
     SpriteRenderer spriteRenderer;
     Animator anim;
     [SerializeField] float fadeSpeed;
@@ -36,11 +36,13 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
                 Destroy(gameObject);
         }
     }
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate)    //Clone duration could be setup in this script, but better to pass from clone skill so set vars all in skill manager.
+    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset, Transform _closestEnemy, bool _canDuplicateClone, 
+        float _chanceToDuplicate, Player _player)    //Clone duration could be setup in this script, but better to pass from clone skill so set vars all in skill manager.
     {
         closestEnemy = _closestEnemy;
         canDuplicateClone = _canDuplicateClone;
         chanceToDuplicate = _chanceToDuplicate;
+        player = _player;
 
         if (canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 3));       //If can attack (clone attack ability unlocked), do a random attack out the 3.
@@ -66,7 +68,10 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
         {
             if (hit.GetComponent<Enemy>() != null)       //if hit an enemy in attack circle.
             {
-                hit.GetComponent<Enemy>().DamageEffect();         //call that enemies damage function.
+                player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+
+                //hit.GetComponent<Enemy>().DamageEffect();         //call that enemies damage function. Replaced now we have actual stats.
+                
 
                 if (canDuplicateClone)         //When clone's attack hits, chance to make another clone.
                 {

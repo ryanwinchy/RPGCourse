@@ -36,6 +36,8 @@ public class Entity : MonoBehaviour
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
 
+    public System.Action OnFlipped;        //Flip event (called an action, a delegate that's void). Can send other delegates if want to send info about event.
+
     protected virtual void Awake()
     {
 
@@ -56,12 +58,16 @@ public class Entity : MonoBehaviour
 
     }
 
-    public virtual void DamageEffect()
+    public virtual void SlowEntityBy( float _slowPercentage, float _slowDuration)   //Override this, different for player and enemies with their own speed stats.
     {
-        Debug.Log(gameObject.name + " was damaged!");
-        fx.StartCoroutine("FlashFX");
-        StartCoroutine("HitKnockback");
+
     }
+
+    protected virtual void ReturnToDefaultSpeed() => anim.speed = 1;
+
+    public virtual void DamageImpact() => StartCoroutine("HitKnockback");
+      
+ 
 
     protected virtual IEnumerator HitKnockback()
     {
@@ -113,6 +119,9 @@ public class Entity : MonoBehaviour
         facingDir = facingDir * -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
+
+        if (OnFlipped != null)
+            OnFlipped();      //Fires OnFlipped event.
     }
 
     public virtual void FlipController(float _x)
@@ -126,13 +135,7 @@ public class Entity : MonoBehaviour
     #endregion
 
 
-    public void MakeTransparent(bool transparent)
-    {
-        if (transparent)
-            spriteRenderer.color = Color.clear;
-        else
-            spriteRenderer.color = Color.white;
-    }
+
 
     public virtual void Die()      //Only for override.
     {

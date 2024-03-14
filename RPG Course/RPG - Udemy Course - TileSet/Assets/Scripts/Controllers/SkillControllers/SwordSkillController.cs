@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,7 +51,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
 
     public void SetupSword(Vector2 dir, float gravityScale, Player player, float freezeTimeDuration, float returnSpeed)        //Basically start function.
     {
-        this.player = player;           //Instead of using _player.
+        this.player = player;           //Instead of using _player. Probably choose one or the other and be consistent.
         this.freezeTimeDuration = freezeTimeDuration;
         this.returnSpeed = returnSpeed;
 
@@ -67,7 +66,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
         Invoke("DestroyMe", 7f);          //This means after 7 seconds sword is destroyed. Good for bugs if sword falls off map, can get it again instead of losing it.
     }
 
-    public void SetupBounce(bool _isBouncing, int  _numBounces, float _bounceSpeed)
+    public void SetupBounce(bool _isBouncing, int _numBounces, float _bounceSpeed)
     {
         isBouncing = _isBouncing;
         numBounces = _numBounces;
@@ -127,7 +126,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
             if (wasStopped)
             {
                 spinTimer -= Time.deltaTime;
-                                                                   //Instead of the spinning sword stopping, it will slowly move in direction its spinning. Cool effect. Allows to zone enemies.
+                //Instead of the spinning sword stopping, it will slowly move in direction its spinning. Cool effect. Allows to zone enemies.
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + spinDirection, transform.position.y), 1.5f * Time.deltaTime);
 
                 if (spinTimer < 0)
@@ -195,7 +194,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
         if (isReturning)      //If sword is returning, it won't get stuck / collide as below.
             return;
 
-        if (collision.GetComponent<Enemy>() != null )
+        if (collision.GetComponent<Enemy>() != null)
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             SwordSkillDamage(enemy);
@@ -210,7 +209,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
 
     private void SwordSkillDamage(Enemy enemy)
     {
-        enemy.DamageEffect();
+        player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
         enemy.StartCoroutine("FreezeTimeFor", freezeTimeDuration);
     }
 
@@ -244,7 +243,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
         {
             StopWhenSpinning();
             return;
-        }         
+        }
 
         canRotate = false;
         circleCollider.enabled = false;    //disable collider.
