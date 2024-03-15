@@ -6,11 +6,54 @@ public class EnemyStats : CharacterStats
 {
 
     Enemy enemy;
+
+    [Header("Level Details")]
+    [SerializeField] int level;
+
+    [Range(0f, 1f)]
+    [SerializeField] float percentageModifier;
+
+
     protected override void Start()
     {
-        base.Start();
+        ApplyLevelModifiers();
+
+        base.Start();                //Before base start, because base.start updates the health, so we want it to do that based on the modified health.
 
         enemy = GetComponent<Enemy>();
+
+    }
+
+    private void ApplyLevelModifiers()
+    {
+        Modify(strength);     //Dont really have to modify these for enemy. These stats should be 0 anyway.
+        Modify(agility);
+        Modify(intelligence);
+        Modify(vitality);
+
+        Modify(damage);            //Gives good control. But best for enemy, just modify stats manually to really fine tune.
+        Modify(critChance);
+        Modify(critPower);
+
+        Modify(maxHealth);
+        Modify(armour);
+        Modify(evasion);
+        Modify(magicResistance);
+
+        Modify(fireDamage);
+        Modify(iceDamage);
+        Modify(lightningDamage);
+
+    }
+
+    void Modify(Stat _stat)
+    {
+        for (int i = 1; i < level; i++)   //Start at enemy level 1. Each level, enemy gets stronger with modifiers based on the given %.
+        {
+            float modifier = _stat.GetValue() * percentageModifier;    //Modifier is a set % of current stat.
+
+            _stat.AddModifier(Mathf.RoundToInt(modifier));
+        }
     }
 
     public override void TakeDamage(int _damage)

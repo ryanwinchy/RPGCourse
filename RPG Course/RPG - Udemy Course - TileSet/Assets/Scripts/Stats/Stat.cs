@@ -28,5 +28,5 @@ public class Stat        //A stat like damage would have this type. Has a base, 
 
     public void AddModifier(int _modifier) => modifiers.Add(_modifier);     //Add to modifier list.
 
-    public void RemoveModifier(int _modifier) => modifiers.Add(_modifier);       //Remove from modifier list.
+    public void RemoveModifier(int _modifier) => modifiers.Remove(_modifier);       //Remove from modifier list.
 }
