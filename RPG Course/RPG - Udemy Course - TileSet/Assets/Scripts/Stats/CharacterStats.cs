@@ -45,7 +45,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
     public int currentHealth;
 
-    protected bool isDead;
+    public bool isDead {  get; private set; }
 
     public System.Action OnHealthChanged;     //New void event.
 

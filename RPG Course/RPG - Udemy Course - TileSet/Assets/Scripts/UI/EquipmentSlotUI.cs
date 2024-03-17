@@ -13,7 +13,7 @@ public class EquipmentSlotUI : ItemSlotUI
         gameObject.name = "Equipment slot - " + slotType.ToString();
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    public override void OnPointerDown(PointerEventData eventData)    //Different logic than itemslot for when clicked, so inherits and polymorphs.
     {
         Inventory.instance.UnequipItem(item.itemData as ItemDataEquipment);         //Unequip item when click on equip slot. Pass in itemData converted to itemDataEquipment (its child).
         Inventory.instance.AddItem(item.itemData);            //Old equipment was removed, so add it back to inventory.

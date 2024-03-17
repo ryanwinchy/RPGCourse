@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour       //Script goes on in game item objects to handle item pickups etc...
 {
+    [SerializeField] Rigidbody2D rb;
     [SerializeField] ItemData ItemData;
 
 
-    private void OnValidate()          //This is called whenever you change anything on the object in Unity.
+
+    private void SetupVisuals()
     {
-        GetComponent<SpriteRenderer>().sprite = ItemData.icon;    
+        if (ItemData == null)    //Good to do null checks otherwise we get errors.
+            return;
+
+        GetComponent<SpriteRenderer>().sprite = ItemData.icon;
         gameObject.name = "Item object - " + ItemData.name;       //Gives game object name from item data.
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void SetupItem(ItemData _itemData, Vector2 _velocity)      //Sets up the item with the data (what it is), and the velocity it comes out at.
     {
-        if (collision.GetComponent<Player>() != null)     //If PLAYER picks up this item.
-        {
-            Debug.Log("Picked up " + ItemData.name);
-            Inventory.instance.AddItem(ItemData);
-            Destroy(gameObject);   //Item picked up.
-        }
+
+        ItemData = _itemData;
+        rb.velocity = _velocity;
+
+        SetupVisuals();
+    }
+
+    public void PickupItem()
+    {
+        Inventory.instance.AddItem(ItemData);
+        Destroy(gameObject);   //Item picked up.
     }
 }

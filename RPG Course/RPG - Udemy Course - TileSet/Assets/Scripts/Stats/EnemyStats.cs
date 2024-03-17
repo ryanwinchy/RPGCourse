@@ -6,6 +6,7 @@ public class EnemyStats : CharacterStats
 {
 
     Enemy enemy;
+    ItemDrop dropSystem;
 
     [Header("Level Details")]
     [SerializeField] int level;
@@ -21,6 +22,7 @@ public class EnemyStats : CharacterStats
         base.Start();                //Before base start, because base.start updates the health, so we want it to do that based on the modified health.
 
         enemy = GetComponent<Enemy>();
+        dropSystem = GetComponent<ItemDrop>();
 
     }
 
@@ -65,5 +67,7 @@ public class EnemyStats : CharacterStats
     {
         base.Die();
         enemy.Die();
+
+        dropSystem.GenerateDrop();
     }
 }

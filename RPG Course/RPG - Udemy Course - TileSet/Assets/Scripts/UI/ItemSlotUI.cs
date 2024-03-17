@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //Interface - can have same name but diff functionality on different objects. If declare on script, MUST be used. It's like a template.
-//IPointerDownHandler is an interface made by Unity, that gives us function for when clicked.
+//IPointerDownHandler is an interface made by Unity, that gives us the OnPointerDown function for when clicked.
 public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
 {
 

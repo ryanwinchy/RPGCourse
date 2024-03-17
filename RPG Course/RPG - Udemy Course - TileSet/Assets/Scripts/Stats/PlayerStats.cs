@@ -21,8 +21,9 @@ public class PlayerStats : CharacterStats
     protected override void Die()
     {
         base.Die();
-
         player.Die();        //accesses player, on player calls die func which just changes state to dead.
+
+        GetComponent<PlayerItemDrop>()?.GenerateDrop();    //checks player item drop isnt null, if not, runs generate drop.
     }
 
 

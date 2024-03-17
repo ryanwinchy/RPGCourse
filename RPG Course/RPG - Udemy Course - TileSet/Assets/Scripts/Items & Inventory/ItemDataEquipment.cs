@@ -12,28 +12,31 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
 
     public EquipmentType equipmentType;
 
-    [Header("Major ints")]
+    [Header("Major Stats")]
     public int strength;          //1 pt increase damage by 1 and crit.power by 1.
     public int agility;           //1 pt increase evasion by 1 and crit.chance by 1.
     public int intelligence;          //1pt increase magic damage by 1 and magic resistance by 3.
     public int vitality;           //1 point increase healthy by 3.
 
-    [Header("Offensive ints")]
+    [Header("Offensive Stats")]
     public int damage;              //int is basically an int, it's a class I made to store info on each int. Can set in inspector.
     public int critChance;
     public int critPower;            //default 150% damage.
 
-    [Header("Defensive ints")]
+    [Header("Defensive Stats")]
     public int maxHealth;
     public int armour;
     public int evasion;
     public int magicResistance;
 
-    [Header("Magic ints")]
+    [Header("Magic Stats")]
     public int fireDamage;
     public int iceDamage;
     public int lightningDamage;
 
+    [Header("Craft Requirements")]                  //If equipment is craftable, here we cna input list of required materials.
+    public List<InventoryItem> craftingMaterials;
+    
     public void AddModifiers()
     {
         PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();

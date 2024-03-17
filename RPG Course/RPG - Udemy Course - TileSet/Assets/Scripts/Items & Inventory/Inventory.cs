@@ -5,6 +5,8 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
+    public List<ItemData> startingItems;
+
     public List<InventoryItem> inventory;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary; //Dictionaries are a key system. Search thru items with key (itemData), get inventoryItem. Like list.
 
@@ -12,8 +14,8 @@ public class Inventory : MonoBehaviour
     public Dictionary<ItemData, InventoryItem> stashDictionary;   //Inventory item takes item data and has more info on it, like stack size. For items inside inv.
 
     public List<InventoryItem> equipment;                  //Equipment is list of equippable items.
-    public Dictionary <ItemDataEquipment, InventoryItem> equipmentDictionary;    //Item data equipment (child) so can see the equipment type.
-    
+    public Dictionary<ItemDataEquipment, InventoryItem> equipmentDictionary;    //Item data equipment (child) so can see the equipment type.
+
     [Header("Inventory UI")]
 
     [SerializeField] Transform inventorySlotParent;
@@ -46,6 +48,16 @@ public class Inventory : MonoBehaviour
         inventoryItemSlots = inventorySlotParent.GetComponentsInChildren<ItemSlotUI>();  //Finds all the item slot UIs in children, stores in array.
         stashItemSlots = stashSlotParent.GetComponentsInChildren<ItemSlotUI>();      //Array of stash slots.
         equipmentSlots = equipmentSlotParent.GetComponentsInChildren<EquipmentSlotUI>();   //Array of equipment slots.
+
+        AddStartingItems();
+    }
+
+    private void AddStartingItems()
+    {
+        for (int i = 0; i < startingItems.Count; i++)
+        {
+            AddItem(startingItems[i]);
+        }
     }
 
     public void EquipItem(ItemData _item)
@@ -97,7 +109,7 @@ public class Inventory : MonoBehaviour
             {
                 if (item.Key.equipmentType == equipmentSlots[i].slotType)    //if equipment in dictionary (like sword) already has a slot (like sword slot).
                     equipmentSlots[i].UpdateSlot(item.Value);           //Update that slot with the equipment already in equipment dictionary. Value means inventoryItem, key and value for dictionary.
-    
+
             }
         }
 
@@ -181,7 +193,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        if (stashDictionary.TryGetValue(_item, out InventoryItem stashValue))   //Does this item have a stash inventory item? Is it in inv already.
+        if (stashDictionary.TryGetValue(_item, out InventoryItem stashValue))   //If find item of this kind in stash inventory already.
         {
             if (stashValue.stackSize <= 1)     //If last one in stack.
             {
@@ -198,11 +210,56 @@ public class Inventory : MonoBehaviour
 
     }
 
+    public bool CanCraft(ItemDataEquipment _itemToCraft, List<InventoryItem> _requiredMaterials)
+    {
+        //List<InventoryItem> dupeList = _itemToCraft.craftingMaterials;  Could have used this instead of argument.
 
+        List<InventoryItem> materialsToRemove = new List<InventoryItem>();         //New list of materials to remove.
 
+        for (int i = 0; i < _requiredMaterials.Count; i++)       //Loop thru required mats.
+        {
+            if (stashDictionary.TryGetValue(_requiredMaterials[i].itemData, out InventoryItem stashValue))   //If required material's itemData is in stash inventory.
+            {
+                if (stashValue.stackSize >= _requiredMaterials[i].stackSize)   //Check we have more (or equal) of the mat in stash than is required.
+                {
+                    int amtToAdd = _requiredMaterials[i].stackSize;     //How many of that material is needed.
 
+                    while (amtToAdd > 0)  //Loop thru the amt required, adding to the remove list.
+                    {
+                        materialsToRemove.Add(stashValue);           //add this to used material.
+                        amtToAdd--;
+                    }
 
+                }
+                else       //Don't have enough of the mat.
+                {
+                    Debug.Log("Not enough of " + _requiredMaterials[i].itemData.name);
+                    return false;
+                }
 
+            }
+            else     //Did not have required material in stash inventory.
+            {
+                Debug.Log("Not enough materials.");
+                return false;
+            }
+        }
+
+        for (int i = 0; i < materialsToRemove.Count; i++)    //cycle thru materials to remove.
+        {
+            RemoveItem(materialsToRemove[i].itemData);      //Remove the item from the stash.
+        }
+
+        AddItem(_itemToCraft);    //If successful and function hasn't exited at this point, add the item to craft to inventory / stash!
+        Debug.Log("Here is your " + _itemToCraft.itemName);
+
+        return true;
+
+    }
+
+    public List<InventoryItem> GetEquipmentList() => equipment;
+
+    public List<InventoryItem > GetStashList() => stash;
 
 
 }
