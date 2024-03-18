@@ -8,9 +8,13 @@ public enum EquipmentType { Weapon, Armour, Amulet, Flask }
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Data/Equipment")]          //Creates right click menu option. Create -> Data -> Item
 
 public class ItemDataEquipment : ItemData       //Exactly the same as itemData scriptable object, but has an equipment type, so can work out which slot is which, and equip only one sword for eg.
-{                                                //Equipment is also equipped, so modifies ints.
+{                                                //Equipment is also equipped, so modifies stats.
 
     public EquipmentType equipmentType;
+
+    public float itemCooldown;
+
+    public UniqueItemEffect[] itemEffects;
 
     [Header("Major Stats")]
     public int strength;          //1 pt increase damage by 1 and crit.power by 1.
@@ -19,9 +23,9 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
     public int vitality;           //1 point increase healthy by 3.
 
     [Header("Offensive Stats")]
-    public int damage;              //int is basically an int, it's a class I made to store info on each int. Can set in inspector.
+    public int damage;              
     public int critChance;
-    public int critPower;            //default 150% damage.
+    public int critPower;            
 
     [Header("Defensive Stats")]
     public int maxHealth;
@@ -37,6 +41,15 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
     [Header("Craft Requirements")]                  //If equipment is craftable, here we cna input list of required materials.
     public List<InventoryItem> craftingMaterials;
     
+
+    public void ExecuteItemEffect(Transform _enemyPosition)
+    {
+        foreach (UniqueItemEffect effect in itemEffects)
+        {
+            effect.ExecuteEffect(_enemyPosition);
+        }
+    }
+
     public void AddModifiers()
     {
         PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();

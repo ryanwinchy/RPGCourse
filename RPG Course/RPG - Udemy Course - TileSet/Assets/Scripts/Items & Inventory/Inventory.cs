@@ -26,6 +26,12 @@ public class Inventory : MonoBehaviour
     ItemSlotUI[] stashItemSlots;
     EquipmentSlotUI[] equipmentSlots;          //Equipment Slot UI is exactly the same as Item Slot, but has an Equipment type. Everything else is inherited identically.
 
+    [Header("Items Cooldown")]
+    float lastTimeUsedFlask;
+    float lastTimeUsedArmour;
+    float flaskCooldown;
+    float armourCooldown;
+
     private void Awake()
     {
         if (instance == null)      //Singleton. If tries to create new when change scene, destroy the new one. Keep one only.
@@ -260,6 +266,60 @@ public class Inventory : MonoBehaviour
     public List<InventoryItem> GetEquipmentList() => equipment;
 
     public List<InventoryItem > GetStashList() => stash;
+
+    public ItemDataEquipment GetEquipment(EquipmentType _type)    //get access to currently equipped equipment by type.
+    {
+
+        ItemDataEquipment equippedItem = null;
+
+        foreach (KeyValuePair<ItemDataEquipment, InventoryItem> item in equipmentDictionary)   //Cycle thru equipment dictionary of what's currently equipped.
+        {
+
+            if (item.Key.equipmentType == _type)    //if equipment list cycles through a type that matches type we are trying to get.
+            {
+                equippedItem = item.Key;   
+            }
+        }
+
+        return equippedItem;
+    }
+
+    public void UseFlask()
+    {
+        ItemDataEquipment currentFlask = GetEquipment(EquipmentType.Flask);
+
+        if (currentFlask == null)
+            return;
+
+        bool canUseFlask = Time.time > lastTimeUsedFlask + flaskCooldown;
+
+        if (canUseFlask)
+        {
+            flaskCooldown = currentFlask.itemCooldown;
+            currentFlask.ExecuteItemEffect(null);              //Execute effect, pass null for transform as don't need it for flask.
+            lastTimeUsedFlask = Time.time;
+        }
+        else
+        {
+            Debug.Log("Flask on cooldown");
+        }
+
+    }
+
+    public bool CanUseArmour()
+    {
+        ItemDataEquipment currentArmour = GetEquipment(EquipmentType.Armour);
+
+        if (Time.time > lastTimeUsedArmour + armourCooldown)
+        {
+            armourCooldown = currentArmour.itemCooldown;
+            lastTimeUsedArmour = Time.time;
+            return true;
+        }
+
+        Debug.Log("Armour on cooldown.");
+        return false;
+    }
 
 
 }

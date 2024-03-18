@@ -87,7 +87,15 @@ public class CrystalSkillController : MonoBehaviour
         foreach (Collider2D hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)      //if hit an enemy in attack circle.
+            {
                 player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());        //access the players stats, DoMagicDamage function targeted at the hit enemy's stats.
+
+
+                ItemDataEquipment equippedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);   //If have amulet, do the effect also. Paste this code anywhere want the amulet effect.
+
+                if (equippedAmulet != null)
+                    equippedAmulet.ExecuteItemEffect(hit.transform);
+            }
         }
     }
 

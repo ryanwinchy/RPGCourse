@@ -107,6 +107,11 @@ public class Player : Entity
         {
             skill.crystal.CanUseSkill();           //Check if cooldown finished, if has, use skill.
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))   //When 1 pressed, use flask if have flask.
+        {
+            Inventory.instance.UseFlask();
+        }
     }
 
     public override void SlowEntityBy(float _slowPercentage, float _slowDuration)      //Overrides from entity, as slowing player diff to slowing enemy. Base is empty so dont need it. Polymorph it instead.

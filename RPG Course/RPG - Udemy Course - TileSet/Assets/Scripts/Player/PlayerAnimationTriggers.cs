@@ -21,13 +21,21 @@ public class PlayerAnimationTriggers : MonoBehaviour
             {
                 EnemyStats _target = hit.GetComponent<EnemyStats>();      //get stats script of enemy you hit.
 
-                player.stats.DoDamage(_target);        //On player, get its stats script, run do damage using player stats on target.
+                if (_target != null)
+                    player.stats.DoDamage(_target);        //On player, get its stats script, run do damage using player stats on target.
 
 
-                
+
+                ItemDataEquipment weaponData = Inventory.instance.GetEquipment(EquipmentType.Weapon);   //On attack, execute effect on weapon. Func it calls check if weapon has effect.
+
+                if (weaponData != null)                 //Only if has weapon.
+                    weaponData.ExecuteItemEffect(_target.transform);
+
+
             }
         }
     }
+
 
     void ThrowSword()
     {

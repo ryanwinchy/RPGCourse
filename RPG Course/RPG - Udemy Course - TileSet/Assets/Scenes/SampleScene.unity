@@ -2293,6 +2293,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d5b614b298dc2c645a4f9bf6b71bbede, type: 2}
   - {fileID: 11400000, guid: 2fe6e8815404dbc4799b4fd2d1662e29, type: 2}
   - {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
+  - {fileID: 11400000, guid: 4844ad5e7d8e14543965a5d63ac00e14, type: 2}
+  - {fileID: 11400000, guid: efa3f80e5cb123e4695801e2ee6c3935, type: 2}
+  - {fileID: 11400000, guid: c0fb03e76a5eae14bbdd24b276051e20, type: 2}
+  - {fileID: 11400000, guid: 37867dc5b37abb64db093532085058a5, type: 2}
+  - {fileID: 11400000, guid: 44197e3bacb29c74caa28f9d64eed4bc, type: 2}
+  - {fileID: 11400000, guid: daf8fe933f96d58418db32265bf79fd3, type: 2}
+  - {fileID: 11400000, guid: aeffcb507ee0bc34a8b6a3f30e2815ef, type: 2}
+  - {fileID: 11400000, guid: 7b0f4b215cf9fb84d95c84165dc70298, type: 2}
+  - {fileID: 11400000, guid: 01808d7ee13958647a3d85bb32a647b9, type: 2}
   inventory: []
   stash: []
   equipment: []
@@ -3266,7 +3275,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   vitality:
-    baseValue: 0
+    baseValue: 50
     modifiers: 
   damage:
     baseValue: 13
@@ -3278,7 +3287,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   maxHealth:
-    baseValue: 100
+    baseValue: 200
     modifiers: 
   armour:
     baseValue: 0
@@ -4598,7 +4607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strength:
-    baseValue: 10
+    baseValue: 2
     modifiers: 
   agility:
     baseValue: 0
@@ -4610,7 +4619,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   damage:
-    baseValue: 15
+    baseValue: 5
     modifiers: 
   critChance:
     baseValue: 0
@@ -4631,7 +4640,7 @@ MonoBehaviour:
     baseValue: 2
     modifiers: 
   fireDamage:
-    baseValue: 10
+    baseValue: 0
     modifiers: 
   iceDamage:
     baseValue: 0
@@ -9181,8 +9190,8 @@ MonoBehaviour:
   ailmentsDuration: 4
   shockStrikePrefab: {fileID: 1488682148015968407, guid: 56546a02d2fd4d540a6699f02cf309e9, type: 3}
   currentHealth: 0
-  level: 0
-  percentageModifier: 0
+  level: 2
+  percentageModifier: 0.207
 --- !u!70 &1437661469
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

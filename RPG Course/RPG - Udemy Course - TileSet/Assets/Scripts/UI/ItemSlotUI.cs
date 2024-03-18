@@ -47,6 +47,14 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
 
     public virtual void OnPointerDown(PointerEventData eventData)     //Called whenever you click on the slot, so the UI slot. Overriden by equipment slot.
     {
+
+        if (Input.GetKey(KeyCode.LeftControl))           //If click on item slot and hold left control (GetKey), remove item.
+        {
+            Inventory.instance.RemoveItem(item.itemData);
+            return;
+        }
+
+
         if (item.itemData.itemType == ItemType.Equipment)
             Inventory.instance.EquipItem(item.itemData);
 

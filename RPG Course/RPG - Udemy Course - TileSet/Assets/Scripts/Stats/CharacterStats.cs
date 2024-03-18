@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 //All stats controlled here, other scripts can just get vals from here by referencing the script on the game object.
 public class CharacterStats : MonoBehaviour     //base stat class. These stats, all chars have. Player can upgrade / invest in them to improve.
@@ -79,6 +80,20 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
         ApplyIgniteDamage();
     }
 
+    public virtual void IncreaseStatBy(int _modifier, float _duration, Stat _statToModify)
+    {
+        StartCoroutine(StatModifierCoroutine(_modifier, _duration, _statToModify));
+    }
+
+    IEnumerator StatModifierCoroutine(int _modifier, float _duration, Stat _statToModify) //Temporarily add modifier, like from buff potion.
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
+
 
 
     public virtual void DoDamage(CharacterStats _targetStats)         //Nice easy method to combine stats. targetStats is the target, like enemy. this script is the damager.
@@ -99,7 +114,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
         _targetStats.TakeDamage(totalDamage);            // Do physical damage.
 
-        //DoMagicalDamage(_targetStats);            //Do magic damage. Right now, call from crystal spell. But when have items, can do physical and magic damage.
+        DoMagicalDamage(_targetStats);            //Do magic damage. Remove this if dont want to apply magic damage on primary atk.
     }
 
 
@@ -283,6 +298,17 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
         if (currentHealth < 0 && !isDead)
             Die();
+    }
+
+    public virtual void IncreaseHealthyBy(int _amount)
+    {
+        currentHealth += _amount;
+
+        if (currentHealth > GetMaxHealthValue())         //Cannot heal more than max health.
+            currentHealth = GetMaxHealthValue();
+
+        if (OnHealthChanged != null)
+            OnHealthChanged();             //Fire event, so healthbarUI updates.
     }
 
     protected virtual void DecreaseHealthBy(int _damage)   //Script whenever we need to update health stat, without other effects.

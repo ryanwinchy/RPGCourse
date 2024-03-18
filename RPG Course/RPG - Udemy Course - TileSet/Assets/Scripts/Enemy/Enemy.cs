@@ -76,7 +76,9 @@ public class Enemy : Entity                //Basically sets up new state machine
         }
     }
 
-    protected virtual IEnumerator FreezeTimeFor(float seconds)
+    public virtual void FreezeTimeFor(float _duration) => StartCoroutine(FreezeTimeCoroutine(_duration));
+
+    protected virtual IEnumerator FreezeTimeCoroutine(float seconds)
     {
         FreezeTime(true);
         yield return new WaitForSeconds(seconds);

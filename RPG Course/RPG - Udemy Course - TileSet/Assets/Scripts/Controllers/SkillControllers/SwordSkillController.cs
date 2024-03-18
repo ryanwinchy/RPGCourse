@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class SwordSkillController : MonoBehaviour     //Attached to sword game object, sets up skill settings.
@@ -210,7 +211,12 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
     private void SwordSkillDamage(Enemy enemy)
     {
         player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
-        enemy.StartCoroutine("FreezeTimeFor", freezeTimeDuration);
+        enemy.FreezeTimeFor(freezeTimeDuration);
+
+        ItemDataEquipment equippedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);   //If have amulet, do the effect also.
+
+        if (equippedAmulet != null)
+            equippedAmulet.ExecuteItemEffect(enemy.transform);
     }
 
     private void SetupBounceTargets(Collider2D collision)
