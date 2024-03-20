@@ -21,6 +21,7 @@ MonoBehaviour:
   itemEffects:
   - {fileID: 11400000, guid: b03fbfc93f585d14da036d36d69a1cea, type: 2}
   - {fileID: 11400000, guid: d033ab5872b839f4d864498213ae3054, type: 2}
+  uniqueItemEffectDescription: 'Unique: Does ice and fire damage, launches projectile.'
   strength: 0
   agility: 0
   intelligence: 0
@@ -35,4 +36,6 @@ MonoBehaviour:
   fireDamage: 3
   iceDamage: 5
   lightningDamage: 0
-  craftingMaterials: []
+  craftingMaterials:
+  - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
+    stackSize: 1

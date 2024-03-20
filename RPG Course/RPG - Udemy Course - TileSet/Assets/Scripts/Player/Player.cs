@@ -160,7 +160,8 @@ public class Player : Entity
         if (IsWallDetected())
             return;
 
-
+        if (skill.dash.dashUnlocked == false)      //We have ref to dash skill. Check if dash unlocked in it, if not, return, dont dash.
+            return;
 
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())

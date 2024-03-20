@@ -1,3 +1,4 @@
+using System.Text;
 using UnityEngine;
 
 public enum ItemType { Material, Equipment}
@@ -12,5 +13,10 @@ public class ItemData : ScriptableObject        //This is a scriptable object - 
     [Range(0, 100)]
     public float dropChance;
 
+    protected StringBuilder stringBuilder = new StringBuilder();   //This is a way to show multiple data, in this case item stats.
 
+    public virtual string GetDescription()
+    {
+        return "";
+    }
 }

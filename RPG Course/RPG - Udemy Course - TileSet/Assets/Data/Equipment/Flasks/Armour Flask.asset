@@ -21,6 +21,7 @@ MonoBehaviour:
   itemEffects:
   - {fileID: 11400000, guid: b7e12abc66c9bf343bcfe412f62aee50, type: 2}
   - {fileID: 11400000, guid: a9805414fe6299c458d5de91424985a6, type: 2}
+  uniqueItemEffectDescription: 'Unique: Buffs your armour and heals you.'
   strength: 0
   agility: 0
   intelligence: 0

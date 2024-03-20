@@ -17,14 +17,16 @@ public class Inventory : MonoBehaviour
     public Dictionary<ItemDataEquipment, InventoryItem> equipmentDictionary;    //Item data equipment (child) so can see the equipment type.
 
     [Header("Inventory UI")]
-
-    [SerializeField] Transform inventorySlotParent;
+     
+    [SerializeField] Transform inventorySlotParent;      //We give the parent to this script in Unity editor, we then get array of all the slots in its children.
     [SerializeField] Transform stashSlotParent;     //Stash is for materials and such.
     [SerializeField] Transform equipmentSlotParent;
+    [SerializeField] Transform statSlotParent;
 
     ItemSlotUI[] inventoryItemSlots;
     ItemSlotUI[] stashItemSlots;
     EquipmentSlotUI[] equipmentSlots;          //Equipment Slot UI is exactly the same as Item Slot, but has an Equipment type. Everything else is inherited identically.
+    StatSlotUI[] statSlots;
 
     [Header("Items Cooldown")]
     float lastTimeUsedFlask;
@@ -43,7 +45,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         inventory = new List<InventoryItem>();
-        inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
+        inventoryDictionary = new Dictionary<ItemData, InventoryItem>();   //Dictionary maps item data to inventory item, so can only have one of each, then it stacks.
 
         stash = new List<InventoryItem>();
         stashDictionary = new Dictionary<ItemData, InventoryItem>();
@@ -54,6 +56,7 @@ public class Inventory : MonoBehaviour
         inventoryItemSlots = inventorySlotParent.GetComponentsInChildren<ItemSlotUI>();  //Finds all the item slot UIs in children, stores in array.
         stashItemSlots = stashSlotParent.GetComponentsInChildren<ItemSlotUI>();      //Array of stash slots.
         equipmentSlots = equipmentSlotParent.GetComponentsInChildren<EquipmentSlotUI>();   //Array of equipment slots.
+        statSlots = statSlotParent.GetComponentsInChildren<StatSlotUI>();     //Array of stat slots. No list for stats though.
 
         AddStartingItems();
     }
@@ -62,7 +65,8 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < startingItems.Count; i++)
         {
-            AddItem(startingItems[i]);
+            if (startingItems[i] != null)
+                AddItem(startingItems[i]);
         }
     }
 
@@ -119,7 +123,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-
+        //UI
 
         for (int i = 0; i < inventoryItemSlots.Length; i++)    //Go thru all inventory item slots.
         {
@@ -141,11 +145,16 @@ public class Inventory : MonoBehaviour
         {
             stashItemSlots[i].UpdateSlot(stash[i]);       //Update UI for all stash items.
         }
+
+        for (int i = 0; i < statSlots.Length; i++)     //Go thru stat slots. Updates stat slots UI.
+        {
+            statSlots[i].UpdateStatValueUI();
+        }
     }
 
     public void AddItem(ItemData _item)
     {
-        if (_item.itemType == ItemType.Equipment)
+        if (_item.itemType == ItemType.Equipment && CanAddItem())
             AddToInventory(_item);
 
         else if (_item.itemType == ItemType.Material)
@@ -214,6 +223,16 @@ public class Inventory : MonoBehaviour
 
         UpdateUISlots();
 
+    }
+
+    public bool CanAddItem()
+    {
+        if (inventory.Count >= inventoryItemSlots.Length)    //If inventory >= total amount of item slots.
+        {
+            Debug.Log("No more space");
+            return false;
+        }
+        return true;
     }
 
     public bool CanCraft(ItemDataEquipment _itemToCraft, List<InventoryItem> _requiredMaterials)

@@ -12,8 +12,7 @@ public class CloneSkill : Skill
     [Space]
     [SerializeField] bool canAttack;       //This will eventually be skill tree unlock. For now, inspector bool for testing.
 
-    [SerializeField] bool createCloneOnDashStart;        //Unlockable.
-    [SerializeField] bool createCloneonDashOver;
+
     [SerializeField] bool canCreateCloneOnCounter;
 
     [Header("Clone Can Duplicate")]
@@ -40,17 +39,6 @@ public class CloneSkill : Skill
             canDuplicateClone, chanceToDuplicate, player);
     }
 
-    public void CreateCloneOnDashStart()
-    {
-        if (createCloneOnDashStart)
-            CreateClone(player.transform, Vector3.zero);
-    }
-
-    public void CreateCloneOnDashOver()
-    {
-        if (createCloneonDashOver)
-            CreateClone(player.transform, Vector3.zero);
-    }
 
     public void CreateCloneOnCounter(Transform enemy)
     {

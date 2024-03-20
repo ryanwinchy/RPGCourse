@@ -20,6 +20,7 @@ MonoBehaviour:
   itemCooldown: 10
   itemEffects:
   - {fileID: 11400000, guid: e88b09a81d71acd4d95e3e1d523d19eb, type: 2}
+  uniqueItemEffectDescription: 'Unique: Increases fire damage.'
   strength: 0
   agility: 0
   intelligence: 0

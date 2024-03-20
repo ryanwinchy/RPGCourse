@@ -15,8 +15,13 @@ public class EquipmentSlotUI : ItemSlotUI
 
     public override void OnPointerDown(PointerEventData eventData)    //Different logic than itemslot for when clicked, so inherits and polymorphs.
     {
+        if (item == null || item.itemData == null)
+            return;
+
         Inventory.instance.UnequipItem(item.itemData as ItemDataEquipment);         //Unequip item when click on equip slot. Pass in itemData converted to itemDataEquipment (its child).
         Inventory.instance.AddItem(item.itemData);            //Old equipment was removed, so add it back to inventory.
+
+        ui.itemTooltip.HideTooltip();   //Hide it when click.
 
         CleanupSlot();      //Cleanup slot when remove the item.
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public enum EquipmentType { Weapon, Armour, Amulet, Flask }
@@ -15,6 +16,9 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
     public float itemCooldown;
 
     public UniqueItemEffect[] itemEffects;
+
+    [TextArea]
+    public string uniqueItemEffectDescription;
 
     [Header("Major Stats")]
     public int strength;          //1 pt increase damage by 1 and crit.power by 1.
@@ -40,6 +44,8 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
 
     [Header("Craft Requirements")]                  //If equipment is craftable, here we cna input list of required materials.
     public List<InventoryItem> craftingMaterials;
+
+    int descriptionLength;         //This is so toolTip box will always have a min size, to avoid too much resizing.
     
 
     public void ExecuteItemEffect(Transform _enemyPosition)
@@ -97,6 +103,63 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
         playerStats.lightningDamage.RemoveModifier(lightningDamage);
     }
 
+
+    public override string GetDescription()
+    {
+        stringBuilder.Length = 0;
+        descriptionLength = 0;
+
+        AddItemDescription(strength, "Strength");
+        AddItemDescription(agility, "Agility");
+        AddItemDescription(intelligence, "Intelligence");
+        AddItemDescription(vitality, "Vitality");
+
+        AddItemDescription(damage, "Damage");
+        AddItemDescription(critChance, "Crit. Chance");
+        AddItemDescription(critPower, "Crit. Power");
+
+        AddItemDescription(maxHealth, "Health");
+        AddItemDescription(evasion, "Evasion");
+        AddItemDescription(armour, "Armour");
+        AddItemDescription(magicResistance, "Magic Resist.");
+        AddItemDescription(fireDamage, "Fire Damage");
+        AddItemDescription(iceDamage, "Ice Damage");
+        AddItemDescription(lightningDamage, "Thunder Damage");
+
+        if (descriptionLength < 5)
+        {
+            for (int i = 0; i < 5 - descriptionLength; i++)     //This means if the desc is less than 5 lines, we will add 5 lines. Then, most the time the tooltip is same size, but resizes if big. Looks great!
+            {
+                stringBuilder.AppendLine();
+                stringBuilder.Append("");        //Empty space after stats.
+            }
+        }
+
+        if (uniqueItemEffectDescription.Length > 0)       //If this item has a unique effect.
+        {
+            stringBuilder.AppendLine();
+            stringBuilder.Append(uniqueItemEffectDescription);
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    void AddItemDescription(int _statValue, string _name)    //This is to display all the item stats. Builds description, adds to string each time called.
+    {
+        if (_statValue != 0)        //Only if have a stat value (dont display the 0s).
+        {
+            if (stringBuilder.Length > 0)
+            {
+                stringBuilder.AppendLine();       //Add new line to description between stats.
+            }
+
+            if (_statValue > 0)
+                stringBuilder.Append("+ " + _statValue + " " + _name);
+
+            descriptionLength++;
+
+        }
+    }
 
 
 }

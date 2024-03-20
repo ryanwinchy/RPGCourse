@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour           //This script needs to be a
     public static PlayerManager instance;    //Singleton pattern. This is now accessibly in any script. Without a ref, can go PlayerManager.instance.player . Instead of player = gameobject.find("player") which is VERY resource heavy. As searches thru all objects every time.
     public Player player;
 
+    public int currency;
+
     private void Awake()
     {
         if (instance != null)    //Check if any instance, if is, destroy it. If none, assign it. This is because we only want one instance of player manager. When change scenes,tries make two.
@@ -15,7 +17,18 @@ public class PlayerManager : MonoBehaviour           //This script needs to be a
         instance = this; // first instance assigned, all others destroyed.
     }
 
+    public bool HaveEnoughCurrency(int _price)
+    {
+        if (_price > currency)
+        {
+            Debug.Log("Not enough money!");
+            return false;
+        }
 
+        currency -= _price;
+
+        return true;
+    }
 
 
 

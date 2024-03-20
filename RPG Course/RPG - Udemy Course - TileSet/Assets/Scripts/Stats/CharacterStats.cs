@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 //All stats controlled here, other scripts can just get vals from here by referencing the script on the game object.
+
+public enum StatType { strength, agility, intelligence, vitality, damage, critChance, critPower, health, armour, evasion, magicResistance, fireDamage, iceDamage, lightningDamage }
+
 public class CharacterStats : MonoBehaviour     //base stat class. These stats, all chars have. Player can upgrade / invest in them to improve.
 {
 
@@ -10,7 +13,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
     public Stat strength;          //1 pt increase damage by 1 and crit.power by 1.
     public Stat agility;           //1 pt increase evasion by 1 and crit.chance by 1.
     public Stat intelligence;          //1pt increase magic damage by 1 and magic resistance by 3.
-    public Stat vitality;           //1 point increase healthy by 3.
+    public Stat vitality;           //1 point increase healthy by 5.
 
     [Header("Offensive Stats")]
     public Stat damage;              //Stat is basically an int, it's a class I made to store info on each stat. Can set in inspector.
@@ -376,6 +379,28 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
     public int GetMaxHealthValue() => maxHealth.GetValue() + (vitality.GetValue() * 5);
 
     #endregion
+
+    public Stat GetStatOfType(StatType statType)
+    {
+        if (statType == StatType.strength) return strength;       //Soooo much quicker doing this than script for each stat buff.
+        else if (statType == StatType.agility) return agility;
+        else if (statType == StatType.intelligence) return intelligence;
+        else if (statType == StatType.vitality) return vitality;
+        else if (statType == StatType.damage) return damage;
+        else if (statType == StatType.critChance) return critChance;
+        else if (statType == StatType.critPower) return critPower;
+        else if (statType == StatType.health) return maxHealth;
+        else if (statType == StatType.armour) return armour;
+        else if (statType == StatType.evasion) return evasion;
+        else if (statType == StatType.magicResistance) return magicResistance;
+        else if (statType == StatType.fireDamage) return fireDamage;
+        else if (statType == StatType.iceDamage) return iceDamage;
+        else if (statType == StatType.lightningDamage) return lightningDamage;
+
+        return null;   //If none found.
+
+
+    }
 
 
 }

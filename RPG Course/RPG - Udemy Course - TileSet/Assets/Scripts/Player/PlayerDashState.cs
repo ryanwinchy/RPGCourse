@@ -12,7 +12,7 @@ public class PlayerDashState : PlayerState
     {
         base.Enter();
 
-        player.skill.clone.CreateCloneOnDashStart();       //Whenever we enter dash, a clown will spawn (if unlocked).
+        player.skill.dash.CloneOnDash();                //Whenever we enter dash, a clown will spawn (if unlocked). 
 
         stateTimer = player.dashDuration;
         
@@ -23,9 +23,8 @@ public class PlayerDashState : PlayerState
     {
         base.Exit();
 
+        player.skill.dash.CloneOnArrival();                  //Create clone on exit if unlocked.   
         player.SetVelocity(0, rb.velocity.y);
-
-        player.skill.clone.CreateCloneOnDashOver();        //Create clone on exit if unlocked.
     }
 
     public override void Update()

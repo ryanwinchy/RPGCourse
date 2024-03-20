@@ -20,6 +20,7 @@ MonoBehaviour:
   itemCooldown: 5
   itemEffects:
   - {fileID: 11400000, guid: a9805414fe6299c458d5de91424985a6, type: 2}
+  uniqueItemEffectDescription: 'Unique: Heals you 30%.'
   strength: 0
   agility: 0
   intelligence: 0

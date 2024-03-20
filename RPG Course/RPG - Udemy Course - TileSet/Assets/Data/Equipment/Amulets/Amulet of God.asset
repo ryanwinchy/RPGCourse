@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Amulet of God
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: 
+  itemName: Amulet of God
   icon: {fileID: -245851270, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   dropChance: 0
   equipmentType: 2
   itemCooldown: 0
   itemEffects:
   - {fileID: 11400000, guid: 1e26159bf0d247e4f81b26f4442886df, type: 2}
+  uniqueItemEffectDescription: 'Unique: Give thunder strike on hit.'
   strength: 0
   agility: 0
   intelligence: 0
