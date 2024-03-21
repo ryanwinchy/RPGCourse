@@ -9,6 +9,7 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
 
 
     float cloneTimer;
+    float attackMultiplier;
     [SerializeField] Transform attackCheck;
     [SerializeField] float attackCheckRadius = 0.8f;
     Transform closestEnemy;
@@ -37,12 +38,13 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
         }
     }
     public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset, Transform _closestEnemy, bool _canDuplicateClone, 
-        float _chanceToDuplicate, Player _player)    //Clone duration could be setup in this script, but better to pass from clone skill so set vars all in skill manager.
+        float _chanceToDuplicate, Player _player, float _attackMultiplier)    //Clone duration could be setup in this script, but better to pass from clone skill so set vars all in skill manager.
     {
         closestEnemy = _closestEnemy;
         canDuplicateClone = _canDuplicateClone;
         chanceToDuplicate = _chanceToDuplicate;
         player = _player;
+        attackMultiplier = _attackMultiplier;
 
         if (canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 3));       //If can attack (clone attack ability unlocked), do a random attack out the 3.
@@ -68,10 +70,19 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
         {
             if (hit.GetComponent<Enemy>() != null)       //if hit an enemy in attack circle.
             {
-                player.stats.DoDamage(hit.GetComponent<CharacterStats>());
-
-                //hit.GetComponent<Enemy>().DamageEffect();         //call that enemies damage function. Replaced now we have actual stats.
                 
+                PlayerStats playerStats = player.GetComponent<PlayerStats>();
+                EnemyStats enemyStats = hit.GetComponent<EnemyStats>();
+
+                playerStats.CloneDoDamage(enemyStats, attackMultiplier);    //Clone does damage.
+
+                if (player.skill.clone.canApplyOnHitEffect)         //If skill tree unlocked where clone applies hit effect.
+                {
+                    ItemDataEquipment weaponData = Inventory.instance.GetEquipment(EquipmentType.Weapon);   //On attack, execute effect on weapon. Func it calls check if weapon has effect.
+
+                    if (weaponData != null)                 //Only if has weapon.
+                        weaponData.ExecuteItemEffect(hit.transform);
+                }
 
                 if (canDuplicateClone)         //When clone's attack hits, chance to make another clone.
                 {
@@ -94,6 +105,10 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
             {
                 facingDir = -1;          //If flip, track facing dir for other functions.
                 transform.Rotate(0, 180, 0);
+            }
+            else
+            {
+                facingDir = 1;
             }
         }
 

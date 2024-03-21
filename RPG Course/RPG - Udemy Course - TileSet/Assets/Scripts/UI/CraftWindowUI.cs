@@ -16,7 +16,7 @@ public class CraftWindowUI : MonoBehaviour       //This script is for the craft 
     public void SetupCraftWindow(ItemDataEquipment _data)
     {
 
-        craftButton.onClick.RemoveAllListeners();      //Removes all listeners from button just to reset it.
+        craftButton.onClick.RemoveAllListeners();      //Removes all listeners from button. so nothing happens on click.
 
         for (int i = 0; i < materialImages.Length; i++)    //Cycle thru material images and its text, whipe it out upon setup.
         {

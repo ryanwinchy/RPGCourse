@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ItemTooltipUI : MonoBehaviour
+public class ItemTooltipUI : TooltipUI
 {
 
     [SerializeField] TextMeshProUGUI itemNameText;
@@ -28,13 +28,9 @@ public class ItemTooltipUI : MonoBehaviour
         gameObject.SetActive(true);    //Show this tooltip.
 
 
-        if (itemNameText.text.Length > 13)    //If title of tooltip is quite long, reduce the size so fits on one line.
-        {
-            itemNameText.fontSize *= 0.7f;
-        }
-        else
-            itemNameText.fontSize = defaultFontSize;
-
+        AdjustFontSize(itemNameText);      //If title quite long, reduce font size.
+        AdjustPosition();                 //Offset tooltip dependent on mouse pos on hover.
+        
     }
 
     public void HideTooltip()

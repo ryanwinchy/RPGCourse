@@ -27,7 +27,7 @@ public class SkillTreeSlotUI : MonoBehaviour , IPointerEnterHandler, IPointerExi
         gameObject.name = "SkillTreeSlotUI - " + skillName;    //makes life easier in inspector.
     }
 
-    private void Awake()                          //Awake as we want to listen for button press straight away, before skill scripts run their checks if unlocked or not.
+    private void Awake()                          //Awake as we want the unlocking skill slot to happen instantly when clicked, THEN the skill scripts listening for unlock can actually unlock the skill in their start. This has to run first.
     {
         GetComponent<Button>().onClick.AddListener(() => UnlockSkillSlot());   //When button pressed, run unlock skill slot.
     }
@@ -71,24 +71,8 @@ public class SkillTreeSlotUI : MonoBehaviour , IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ui.skillTooltip.ShowTooltip(skillDescription, skillName);
+        ui.skillTooltip.ShowTooltip(skillDescription, skillName, skillPrice);
 
-        Vector2 mousePosition = Input.mousePosition;
-         
-        float xOffset = 0;
-        float yOffset = 0;
-
-        if (mousePosition.x > 600)                //Nicely moves tooltip towards where the skill is.
-            xOffset = -150;
-        else
-            xOffset = 150;
-
-        if (mousePosition.y > 320)                //Nicely moves tooltip towards where the skill is.
-            yOffset = -150;
-        else
-            yOffset = 150;
-
-        ui.skillTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
     }
 
     public void OnPointerExit(PointerEventData eventData)

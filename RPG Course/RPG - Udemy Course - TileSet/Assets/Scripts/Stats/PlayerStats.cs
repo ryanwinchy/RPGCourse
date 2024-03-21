@@ -38,5 +38,34 @@ public class PlayerStats : CharacterStats
         }
     }
 
+    public override void OnEvasion()
+    {
+        Debug.Log("Player avoided attack");
+        player.skill.dodge.CreateMirageOnDodge();
+    }
+
+    public void CloneDoDamage(CharacterStats _targetStats, float _cloneDamageMultiplier)
+    {
+        if (TargetCanAvoidAttack(_targetStats))   //Try evasion. If works, exit.
+            return;
+
+        int totalDamage = damage.GetValue() + strength.GetValue();
+
+        if (_cloneDamageMultiplier > 0)
+            totalDamage = Mathf.RoundToInt(totalDamage * _cloneDamageMultiplier);
+
+        totalDamage = CheckTargetArmour(_targetStats, totalDamage);
+
+        if (CanCrit())
+        {
+            Debug.Log("Crit hit!");
+            totalDamage = CalculateCriticalDamage(totalDamage);
+        }
+
+
+        _targetStats.TakeDamage(totalDamage);            // Do physical damage.
+
+        DoMagicalDamage(_targetStats);            //Do magic damage. Remove this if dont want to apply magic damage on primary atk.
+    }
 
 }

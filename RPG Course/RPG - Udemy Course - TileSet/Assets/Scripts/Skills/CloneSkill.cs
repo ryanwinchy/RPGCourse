@@ -1,26 +1,102 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CloneSkill : Skill
 {
 
 
     [Header("Clone Info")]
+    [SerializeField] float attackMultiplier;
     [SerializeField] GameObject clonePrefab;
     [SerializeField] float cloneDuration;
     [Space]
-    [SerializeField] bool canAttack;       //This will eventually be skill tree unlock. For now, inspector bool for testing.
+
+    [Header("Clone Attack")]
+    [SerializeField] SkillTreeSlotUI cloneAttackUnlockButton;
+    [SerializeField] float cloneAttackMultiplier;
+    [SerializeField] bool cloneCanAttackUnlocked;       //This will eventually be skill tree unlock. For now, inspector bool for testing.
+
+    [Header("Aggressive Clone")]
+    [SerializeField] SkillTreeSlotUI aggressiveCloneUnlockButton;      //Increases clone attack multiplier (clone damage).
+    [SerializeField] float aggressiveCloneAttackMultiplier;
+    public bool canApplyOnHitEffect {  get; private set; }
 
 
-    [SerializeField] bool canCreateCloneOnCounter;
-
-    [Header("Clone Can Duplicate")]
+    [Header("Multiple Clones")]
+    [SerializeField] SkillTreeSlotUI multipleUnlockButton;
+    [SerializeField] float multipleCloneAttackMultiplier;
     [SerializeField] bool canDuplicateClone;
     [SerializeField] float chanceToDuplicate;
 
     [Header("Crystal Instead of Clone")]
+    [SerializeField] SkillTreeSlotUI crystalInsteadUnlockButton;
     public bool crystalInsteadOfClone;
+
+
+    protected override void Start()
+    {
+        base.Start();
+
+        cloneAttackUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCloneAttack);
+        aggressiveCloneUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockAggressiveClone);
+        multipleUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockMultiClone);
+        crystalInsteadUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalInstead);
+    }
+
+    #region Unlock Region
+
+    void UnlockCloneAttack()
+    {
+        if (cloneAttackUnlockButton.unlocked)
+        {
+
+            cloneCanAttackUnlocked = true;
+            attackMultiplier = cloneAttackMultiplier;      //Standard.
+        }
+    }
+
+    void UnlockAggressiveClone()
+    {
+        if (aggressiveCloneUnlockButton.unlocked)
+        {
+            canApplyOnHitEffect = true;
+            attackMultiplier = aggressiveCloneAttackMultiplier;    //Increased damage.
+        }
+
+    }
+
+    void UnlockMultiClone()
+    {
+        if (multipleUnlockButton.unlocked)
+        {
+            canDuplicateClone = true;
+            attackMultiplier = multipleCloneAttackMultiplier;
+        }
+    }
+
+    void UnlockCrystalInstead()
+    {
+        if (crystalInsteadUnlockButton.unlocked)
+            crystalInsteadOfClone = true;
+    }
+
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void CreateClone(Transform clonePosition, Vector3 offset)
     {
@@ -35,24 +111,27 @@ public class CloneSkill : Skill
 
         GameObject newClone = Instantiate(clonePrefab);
 
-        newClone.GetComponent<CloneSkillController>().SetupClone(clonePosition, cloneDuration, canAttack, offset, FindClosestEnemy(newClone.transform), 
-            canDuplicateClone, chanceToDuplicate, player);
+        newClone.GetComponent<CloneSkillController>().SetupClone(clonePosition, cloneDuration, cloneCanAttackUnlocked, offset, FindClosestEnemy(newClone.transform),
+            canDuplicateClone, chanceToDuplicate, player, attackMultiplier);
     }
 
 
-    public void CreateCloneOnCounter(Transform enemy)
+    public void CreateCloneWithDelay(Transform enemy)
     {
-        if (canCreateCloneOnCounter)
-            StartCoroutine(CreateCloneWithDelay(0.4f, enemy, new Vector3(2 * player.facingDir, 0)));
+            StartCoroutine(CloneWithDelayCoroutine(0.4f, enemy, new Vector3(2 * player.facingDir, 0)));
     }
 
-    IEnumerator CreateCloneWithDelay(float time, Transform transform, Vector3 offset)
+    IEnumerator CloneWithDelayCoroutine(float time, Transform transform, Vector3 offset)
     {
         yield return new WaitForSeconds(time);
             CreateClone(transform, offset); //spawn clone behind enemy. If im on left enemy on right and I counter, will spawn clone behind enemy always.
     }
 
 
+    public void MakeMirageOnParry()
+    {
+
+    }
 
 
 }

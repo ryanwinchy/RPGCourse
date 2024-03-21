@@ -17,8 +17,6 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
 
     public UniqueItemEffect[] itemEffects;
 
-    [TextArea]
-    public string uniqueItemEffectDescription;
 
     [Header("Major Stats")]
     public int strength;          //1 pt increase damage by 1 and crit.power by 1.
@@ -126,6 +124,18 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
         AddItemDescription(iceDamage, "Ice Damage");
         AddItemDescription(lightningDamage, "Thunder Damage");
 
+
+        for (int i = 0; i < itemEffects.Length; i++)         //Cycle thru item effects
+        {
+            if (itemEffects[i].effectDescription.Length > 0)     //If the item effect has a description, append it to description of item in UI.
+            {
+                stringBuilder.AppendLine();      //Line above and below.
+                stringBuilder.AppendLine("Unique: " + itemEffects[i].effectDescription);
+
+                descriptionLength ++;           //Add line to description length so knows when to resize box.
+            }
+        }
+
         if (descriptionLength < 5)
         {
             for (int i = 0; i < 5 - descriptionLength; i++)     //This means if the desc is less than 5 lines, we will add 5 lines. Then, most the time the tooltip is same size, but resizes if big. Looks great!
@@ -135,11 +145,7 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
             }
         }
 
-        if (uniqueItemEffectDescription.Length > 0)       //If this item has a unique effect.
-        {
-            stringBuilder.AppendLine();
-            stringBuilder.Append(uniqueItemEffectDescription);
-        }
+ 
 
         return stringBuilder.ToString();
     }

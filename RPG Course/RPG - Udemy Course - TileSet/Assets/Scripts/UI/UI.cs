@@ -10,6 +10,7 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
     [SerializeField] GameObject skillTreeUI;
     [SerializeField] GameObject craftUI;
     [SerializeField] GameObject optionsUI;
+    [SerializeField] GameObject inGameUI;
 
     public ItemTooltipUI itemTooltip;
     public StatTooltipUI statTooltip;
@@ -17,9 +18,14 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
     public SkillTooltipUI skillTooltip;
 
 
+    private void Awake()
+    {
+        SwitchTo(skillTreeUI);            //Switch on skill tree quickly. So can assign events on skill tree slots before on skill slots. Bug fix. Not necessary unless skill tree off in inspector.
+    }
+
     private void Start()
     {
-        SwitchTo(null);           //Dont want any menu UI when start game.
+        SwitchTo(inGameUI);           //Dont want any menu UI when start game.
     }
 
     // Update is called once per frame
@@ -54,9 +60,25 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
         if (_menu != null && _menu.activeSelf)     //Checks if _menu gameobject currently active.
         {
             _menu.SetActive(false);        //If active, deactivate.
+
+            CheckForInGameUI();   //Checks if needs to go back to in gameplay UI.
+
             return;
         }
 
         SwitchTo(_menu);     //If not active, activate it.
     }
+
+    void CheckForInGameUI()     //Checks if any menu active. If all off, switch to in game UI, so health and such in gameplay.
+    {
+        for (int i = 0; i < transform.childCount; i++)       
+        {
+            if (transform.GetChild(i).gameObject.activeSelf)
+                return;
+
+            SwitchTo(inGameUI);
+        }
+    }
+
+
 }

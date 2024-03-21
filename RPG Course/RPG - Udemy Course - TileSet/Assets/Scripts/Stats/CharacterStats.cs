@@ -51,6 +51,8 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
     public bool isDead {  get; private set; }
 
+    bool isVulnerable;
+
     public System.Action OnHealthChanged;     //New void event.
 
 
@@ -81,6 +83,20 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
             isShocked = false;
 
         ApplyIgniteDamage();
+    }
+
+    public void MakeVulnerableFor(float _duration)
+    {
+        StartCoroutine(VulnerableCoroutine(_duration));
+    }
+
+    IEnumerator VulnerableCoroutine(float _duration)
+    {
+        isVulnerable = true;
+
+        yield return new WaitForSeconds(_duration);
+
+        isVulnerable = false;
     }
 
     public virtual void IncreaseStatBy(int _modifier, float _duration, Stat _statToModify)
@@ -316,6 +332,10 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
     protected virtual void DecreaseHealthBy(int _damage)   //Script whenever we need to update health stat, without other effects.
     {
+
+        if (isVulnerable)
+            _damage = Mathf.RoundToInt(_damage * 1.1f);
+
         currentHealth -= _damage;
 
         if (OnHealthChanged != null)
@@ -328,7 +348,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
     }
 
     #region Stat Calculcations
-    private int CheckTargetArmour(CharacterStats _targetStats, int totalDamage)
+    protected int CheckTargetArmour(CharacterStats _targetStats, int totalDamage)
     {
         if (_targetStats.isChilled)
             totalDamage -= Mathf.RoundToInt(_targetStats.armour.GetValue() * 0.7f);      //If chilled, targets armour 70% effective.
@@ -338,16 +358,21 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
         totalDamage = Mathf.Clamp(totalDamage, 0, int.MaxValue);          //Ensure damage is 0 minimum. Otherwise, if armour more than damage, theyd get healed.
         return totalDamage;
     }
-    private bool TargetCanAvoidAttack(CharacterStats _targetStats)
+
+    public virtual void OnEvasion()
+    {
+
+    }
+    protected bool TargetCanAvoidAttack(CharacterStats _targetStats)
     {
         int totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue();
 
         if (isShocked)
             totalEvasion += 20;       //If I am shocked, my target more likely to avoid attack.
 
-        if (Random.Range(0, 100) < totalEvasion)               //Choose random 1 to 100, if lower than total evasion, dodge. So more evasion, the more likely dodge.
+        if (Random.Range(0, 100) < totalEvasion)      //Choose random 1 to 100, if lower than total evasion, dodge. So more evasion, the more likely dodge.
         {
-            Debug.Log("Attack avoided!");
+            _targetStats.OnEvasion();          //If dodge, run on evasion. Player inherits it, and creates mirage on dodge if unlocked.
             return true;
         }
 
@@ -355,7 +380,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
     }
 
 
-    bool CanCrit()
+    protected bool CanCrit()
     {
         int totalCriticalChance = critChance.GetValue() + agility.GetValue();
 
@@ -367,7 +392,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
         return false;
     }
 
-    int CalculateCriticalDamage(int _damage)
+    protected int CalculateCriticalDamage(int _damage)
     {
         float totalCritPower = (critPower.GetValue() + strength.GetValue()) * 0.01f;   //So works as float.
 

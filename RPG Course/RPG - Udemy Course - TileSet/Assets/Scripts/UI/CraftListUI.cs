@@ -11,7 +11,7 @@ public class CraftListUI : MonoBehaviour, IPointerDownHandler         //This scr
 
     [SerializeField] List<ItemDataEquipment> craftEquipment;    //List of items we can craft. Drag all swords in for weapon craft list for eg.
 
-    
+
     void Start()
     {
         transform.parent.GetChild(0).GetComponent<CraftListUI>().SetupCraftList();  //Get access to the parent (the craft list panel), get first child in list (weapon craft list), then set this up. So basically, default display is first in craft list, weapons.

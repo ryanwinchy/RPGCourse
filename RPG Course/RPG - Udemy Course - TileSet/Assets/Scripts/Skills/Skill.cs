@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour     //All skills will inherit from this. So this script needs the stuff every skill has.
 {
-    [SerializeField] protected float cooldown;  //All skills will have cooldown, if not can set to 0.
+    [SerializeField] public float cooldown;  //All skills will have cooldown, if not can set to 0.
     protected float cooldownTimer;
 
     protected Player player;

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class StatTooltipUI : MonoBehaviour
+public class StatTooltipUI : TooltipUI
 {
     [SerializeField] TextMeshProUGUI description;
 
     public void ShowStatTooltip(string _text)
     {
         description.text = _text;
+        AdjustPosition();
 
         gameObject.SetActive(true);
     }

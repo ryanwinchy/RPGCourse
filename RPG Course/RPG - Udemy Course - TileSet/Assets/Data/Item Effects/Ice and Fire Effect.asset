@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b388b2262accc4e418a66d5563dd44c3, type: 3}
   m_Name: Ice and Fire Effect
   m_EditorClassIdentifier: 
+  effectDescription: Launch projectile every 3 hits.
   iceAndFirePrefab: {fileID: 4186530407209418850, guid: 190efb225bcaa5946b25e179bfced1cf, type: 3}
   xVelocity: 10

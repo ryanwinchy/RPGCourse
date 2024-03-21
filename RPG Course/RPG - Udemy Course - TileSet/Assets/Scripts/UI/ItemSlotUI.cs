@@ -76,23 +76,10 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (item == null)      //If slot is empty.
             return;
 
-        Vector2 mousePosition = Input.mousePosition;
 
-        float xOffset = 0;               //We do the tooltip offset twice, copied code. Could make a 'tooltip' parent script and inherit, but would be only for this.
-        float yOffset = 0;
-
-        if (mousePosition.x > 600)                //Nicely moves tooltip towards where the skill is.
-            xOffset = -250;
-        else
-            xOffset = 250;
-
-        if (mousePosition.y > 320)                //Nicely moves tooltip towards where the skill is.
-            yOffset = -150;
-        else
-            yOffset = 150;
 
         ui.itemTooltip.ShowTooltip(item.itemData as ItemDataEquipment);     //Is child of itemData so can just use 'as'.
-        ui.itemTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);  //Offset the tooltip box.
+
     }
 
     public void OnPointerExit(PointerEventData eventData)     //Hide item info on hover.

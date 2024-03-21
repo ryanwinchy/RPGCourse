@@ -37,10 +37,12 @@ public class PlayerCounterAttackState : PlayerState
                 stateTimer = 100f;     //Just an arbitrary big num, so doesnt exit state because of timer if hits.
                 player.anim.SetBool("SuccessfulCounterAttack", true);     //Make anim go to successful counter. On this anim, we have an event to make triggerCalled = true, so we exit to idle below.
 
+                player.skill.parry.UseSkill();    //Uses skill to restore health on parry.
+
                 if (canCreateClone)
                 {
                     canCreateClone = false;       //So if you counter two at once, only creates one clone.
-                    player.skill.clone.CreateCloneOnCounter(hit.transform);
+                    player.skill.parry.MakeMirageOnParry(hit.transform);
                 }
 
             }

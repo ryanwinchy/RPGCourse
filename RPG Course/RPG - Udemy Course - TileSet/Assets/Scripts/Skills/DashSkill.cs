@@ -7,16 +7,16 @@ public class DashSkill : Skill
 {
     //Unlockable skills.
     [Header("Dash")]
-    public bool dashUnlocked;
     [SerializeField] SkillTreeSlotUI dashUnlockButton;
+    public bool dashUnlocked { get; private set; }  //Set to public for testing, then made {get; private set;} property when working. Other scripts can only get, not set.
 
     [Header("Clone on Dash")]
-    public bool cloneOnDashUnlocked;
     [SerializeField] SkillTreeSlotUI cloneOnDashUnlockButton;
+    public bool cloneOnDashUnlocked { get; private set; }
 
     [Header("Clone on Arrival")]
-    public bool cloneOnArrivalUnlocked;
     [SerializeField] SkillTreeSlotUI cloneOnArrivalUnlockButton;
+    public bool cloneOnArrivalUnlocked { get; private set; }
 
 
 

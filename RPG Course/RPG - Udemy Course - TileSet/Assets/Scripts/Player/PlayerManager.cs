@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour           //This script needs to be a
         return true;
     }
 
-
+    public int GetCurrency() => currency;
 
 
 }
