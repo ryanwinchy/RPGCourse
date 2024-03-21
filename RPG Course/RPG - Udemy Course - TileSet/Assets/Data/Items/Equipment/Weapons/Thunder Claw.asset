@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023072d0ce69ac04bb8ee38426ad245c, type: 3}
-  m_Name: Healing Flask
+  m_Name: Thunder Claw
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Healing Flask
-  icon: {fileID: -410334530, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemName: Thunder Claw
+  itemIcon: {fileID: 1674809057, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 4844ad5e7d8e14543965a5d63ac00e14
   dropChance: 0
-  equipmentType: 3
-  itemCooldown: 5
+  equipmentType: 0
+  itemCooldown: 0
   itemEffects:
-  - {fileID: 11400000, guid: a9805414fe6299c458d5de91424985a6, type: 2}
-  uniqueItemEffectDescription: 'Unique: Heals you 30%.'
+  - {fileID: 11400000, guid: 1e26159bf0d247e4f81b26f4442886df, type: 2}
   strength: 0
   agility: 0
   intelligence: 0
   vitality: 0
-  damage: 0
+  damage: 10
   critChance: 0
   critPower: 0
   maxHealth: 0
@@ -34,5 +34,7 @@ MonoBehaviour:
   magicResistance: 0
   fireDamage: 0
   iceDamage: 0
-  lightningDamage: 0
-  craftingMaterials: []
+  lightningDamage: 5
+  craftingMaterials:
+  - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
+    stackSize: 13

@@ -74,6 +74,8 @@ public class SwordSkill : Skill
 
     }
 
+
+
     void SetupGravity()
     {
         if (swordType == SwordType.Bounce)
@@ -123,6 +125,15 @@ public class SwordSkill : Skill
 
     #region Unlock Region
 
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockThrowSword();
+        UnlockBouncySword();
+        UnlockPierceSword();
+        UnlockSpinSword();
+        UnlockTimeStop();
+        UnlockVulnerability();
+    }
     void UnlockTimeStop()
     {
         if (timeStopUnlockButton.unlocked)

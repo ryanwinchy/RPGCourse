@@ -29,7 +29,7 @@ public class CraftWindowUI : MonoBehaviour       //This script is for the craft 
             if (_data.craftingMaterials.Count > materialImages.Length)      //Trying to setup an item with more crafting mats than there are slots.
                 Debug.LogWarning("You have more materials required than you have material slots in craft window. 4 max.");
 
-            materialImages[i].sprite = _data.craftingMaterials[i].itemData.icon;     //Turn on image, get sprite from icon for that mat.
+            materialImages[i].sprite = _data.craftingMaterials[i].itemData.itemIcon;     //Turn on image, get sprite from icon for that mat.
             materialImages[i].color = Color.white;
 
             TextMeshProUGUI materialSlotText = materialImages[i].GetComponentInChildren<TextMeshProUGUI>();   //The stack amt display.
@@ -39,7 +39,7 @@ public class CraftWindowUI : MonoBehaviour       //This script is for the craft 
 
         }
 
-        itemIcon.sprite = _data.icon;
+        itemIcon.sprite = _data.itemIcon;
         itemName.text = _data.name;
         itemDescription.text = _data.GetDescription();
 

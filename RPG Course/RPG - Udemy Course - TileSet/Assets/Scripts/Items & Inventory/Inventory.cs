@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, ISaveManager
 {
     public static Inventory instance;
 
     public List<ItemData> startingItems;
 
-    public List<InventoryItem> inventory;
+    public List<InventoryItem> inventory;                     //ItemData (or equipmentData) is just the scriptable object. InventoryItem is same thing but with stack size.
     public Dictionary<ItemData, InventoryItem> inventoryDictionary; //Dictionaries are a key system. Search thru items with key (itemData), get inventoryItem. Like list.
 
     public List<InventoryItem> stash;     //Stash is another inventory for mats. So two lists of items basically.
@@ -17,7 +18,7 @@ public class Inventory : MonoBehaviour
     public Dictionary<ItemDataEquipment, InventoryItem> equipmentDictionary;    //Item data equipment (child) so can see the equipment type.
 
     [Header("Inventory UI")]
-     
+
     [SerializeField] Transform inventorySlotParent;      //We give the parent to this script in Unity editor, we then get array of all the slots in its children.
     [SerializeField] Transform stashSlotParent;     //Stash is for materials and such.
     [SerializeField] Transform equipmentSlotParent;
@@ -31,8 +32,12 @@ public class Inventory : MonoBehaviour
     [Header("Items Cooldown")]
     float lastTimeUsedFlask;
     float lastTimeUsedArmour;
-    public float flaskCooldown {  get; private set; }
+    public float flaskCooldown { get; private set; }
     float armourCooldown;
+
+    [Header("Database")]       //This database has all the possible item ids, then when we load file we see which ids we have, and add to inventory.
+    public List<InventoryItem> loadedItems;
+    public List<ItemDataEquipment> loadedEquipment;
 
     private void Awake()
     {
@@ -63,6 +68,25 @@ public class Inventory : MonoBehaviour
 
     private void AddStartingItems()
     {
+
+        foreach (ItemDataEquipment item in loadedEquipment)
+        {
+            EquipItem(item);
+        }
+
+        if (loadedItems.Count > 0)                     //If there are items in load list, add them at start.
+        {
+            foreach (InventoryItem item in loadedItems)
+            {
+                for (int i = 0; i < item.stackSize; i++)
+                {
+                    AddItem(item.itemData);
+                }
+            }
+
+            return;                   //So starting items below won't be used, as we're loading data.
+        }
+
         for (int i = 0; i < startingItems.Count; i++)
         {
             if (startingItems[i] != null)
@@ -289,7 +313,7 @@ public class Inventory : MonoBehaviour
 
     public List<InventoryItem> GetEquipmentList() => equipment;
 
-    public List<InventoryItem > GetStashList() => stash;
+    public List<InventoryItem> GetStashList() => stash;
 
     public ItemDataEquipment GetEquipment(EquipmentType _type)    //get access to currently equipped equipment by type.
     {
@@ -301,7 +325,7 @@ public class Inventory : MonoBehaviour
 
             if (item.Key.equipmentType == _type)    //if equipment list cycles through a type that matches type we are trying to get.
             {
-                equippedItem = item.Key;   
+                equippedItem = item.Key;
             }
         }
 
@@ -344,6 +368,77 @@ public class Inventory : MonoBehaviour
         Debug.Log("Armour on cooldown.");
         return false;
     }
+
+    public void LoadData(GameData _data)    //Take info from saved info,, add to loaded item list.
+    {
+        foreach (KeyValuePair<string, int> pair in _data.savedInventory)    //Cycle thru each pair in saved data. string is itemID , int is stack.
+        {
+            foreach (ItemData item in GetItemDatabase())       //Cycle thru itemData in database of all items in the game.
+            {
+                if (item != null && item.itemId == pair.Key)     //Compare saved itemID (string) to itemId in database of all items.
+                {
+                    InventoryItem itemToLoad = new InventoryItem(item);        //If itemID 
+                    itemToLoad.stackSize = pair.Value;         //Make stack size equal to value in saved file. Value is the int, as its <key, value>. key is itemID, value is stack.
+
+                    loadedItems.Add(itemToLoad);     //Add to list of loaded items.
+                }
+            }
+        }
+
+        foreach (string itemID in _data.savedEquipmentIDs)       //Go thru IDs in saved equipment ID list.
+        {
+            foreach (ItemData item in GetItemDatabase())        //Go thru all item IDs of all possible items from database.
+            {
+                if (item != null && itemID == item.itemId)        //If item ID saved matches database id value of all items.
+                {
+                    loadedEquipment.Add(item as ItemDataEquipment);     //Add the itemData (equipmentData) to loaded equipment list in this script. Can be loaded on 'add starting items func'.
+                }
+            }
+        }
+
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.savedInventory.Clear();      //Clear current saved data inventory.
+        _data.savedEquipmentIDs.Clear();
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in inventoryDictionary)   //Cycle thru inventory dictionary in this script.
+        {
+            _data.savedInventory.Add(pair.Key.itemId, pair.Value.stackSize);     //For each pair, add to _data which is GameData val to be saved. Its ref so this is changing on the actual var. The _data parameter changes the actual val given in argument, its not a copy.
+        }                                                               //Basically copying inventory dictionary from this script to GameData, which is a serializable dictionary.
+                                                                        //Sending itemID and stack size to _data GameData to be saved.
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in stashDictionary)  //Cycle thru stash dictionary in this script.
+        {
+            _data.savedInventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach (KeyValuePair<ItemDataEquipment, InventoryItem> pair in equipmentDictionary)  //Cycle thru equipment dictionary in this script.
+        {
+            _data.savedEquipmentIDs.Add(pair.Key.itemId);         //Add ids in this script to saved equipment Id list.
+        }
+
+    }
+
+
+
+    List<ItemData> GetItemDatabase()
+    {
+        List<ItemData> itemDatabase = new List<ItemData>();     //Empty at first.
+        string[] assetIDs = AssetDatabase.FindAssets("", new[] { "Assets/Data/Items" });     //Search Unity asset database with no filter, in the path given. Store IDs in array.
+
+        foreach (string SOName in assetIDs)     //Cycle through scriptable objects (SO) in equipment folder.
+        {
+            string SOPath = AssetDatabase.GUIDToAssetPath(SOName);      //get path to each SO.
+            ItemData itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOPath);   //Get itemData of each SO in equipment folder.
+            itemDatabase.Add(itemData);           //Add to itemDatabase. Should be all items we have available, read from project folders.
+        }
+
+        return itemDatabase;
+    }
+
+
 
 
 }

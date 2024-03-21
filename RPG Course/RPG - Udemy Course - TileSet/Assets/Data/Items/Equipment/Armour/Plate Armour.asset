@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023072d0ce69ac04bb8ee38426ad245c, type: 3}
-  m_Name: Armour Flask
+  m_Name: Plate Armour
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Armour Flask
-  icon: {fileID: -165920498, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
-  dropChance: 0
-  equipmentType: 3
-  itemCooldown: 15
-  itemEffects:
-  - {fileID: 11400000, guid: b7e12abc66c9bf343bcfe412f62aee50, type: 2}
-  - {fileID: 11400000, guid: a9805414fe6299c458d5de91424985a6, type: 2}
-  uniqueItemEffectDescription: 'Unique: Buffs your armour and heals you.'
+  itemName: Plate Armour
+  itemIcon: {fileID: -1581127718, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 9401f835dd6e54b4fbf3a1aeb97d6549
+  dropChance: 20.2
+  equipmentType: 1
+  itemCooldown: 0
+  itemEffects: []
   strength: 0
   agility: 0
   intelligence: 0
@@ -29,8 +27,8 @@ MonoBehaviour:
   damage: 0
   critChance: 0
   critPower: 0
-  maxHealth: 0
-  armour: 0
+  maxHealth: 15
+  armour: 10
   evasion: 0
   magicResistance: 0
   fireDamage: 0

@@ -38,6 +38,13 @@ public class ParrySkill : Skill
         parryMirageUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockParryWithMirage);
     }
 
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockParry();
+        UnlockHealingParry();
+        UnlockParryWithMirage();
+    }
+
     void UnlockParry()
     {
         if (parryUnlockButton.unlocked)

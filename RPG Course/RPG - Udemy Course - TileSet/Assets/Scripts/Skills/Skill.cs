@@ -12,11 +12,18 @@ public class Skill : MonoBehaviour     //All skills will inherit from this. So t
     protected virtual void Start()
     {
         player = PlayerManager.instance.player;          //This simply gives all skills inheriting from this a reference to player info so can get its transform etc... Eg, sword skill uses it.
+
+        CheckIfSkillLoaded();
     }
 
     protected virtual void Update()    //inheritable.
     {
         cooldownTimer -= Time.deltaTime;
+    }
+
+    protected virtual void CheckIfSkillLoaded()
+    {
+
     }
 
     public virtual bool CanUseSkill()     //All skills have this check to see if can use it.

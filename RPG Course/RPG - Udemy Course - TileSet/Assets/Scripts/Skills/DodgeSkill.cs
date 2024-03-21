@@ -23,6 +23,12 @@ public class DodgeSkill : Skill        //This script is to trigger dodge. But ve
         unlockDodgeMirageButton.GetComponent<Button>().onClick.AddListener(UnlockDodgeMirage);
     }
 
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockDodge();
+        UnlockDodgeMirage();
+    }
+
     void UnlockDodge()
     {
         if (unlockDodgeButton.unlocked && !dodgeUnlocked)   //Second check so cant keep pressing button to gain evasion.

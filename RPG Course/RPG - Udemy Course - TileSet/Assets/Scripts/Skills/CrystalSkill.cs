@@ -46,6 +46,16 @@ public class CrystalSkill : Skill
     }
 
     #region Unlock Skills
+
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockCrystal();
+        UnlockCrystalMirage();
+        UnlockExplosiveCrystal();
+        UnlockMovingCrystal();
+        UnlockMultiCrystal();
+    }
+
     void UnlockCrystal()
     {
         if (unlockCrystalButton.unlocked)

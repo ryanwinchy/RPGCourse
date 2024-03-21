@@ -36,6 +36,13 @@ public class DashSkill : Skill
         cloneOnArrivalUnlockButton.GetComponent<Button>().onClick.AddListener (UnlockCloneOnArrival);
     }
 
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockDash();
+        UnlockCloneOnDash();
+        UnlockCloneOnArrival();
+    }
+
     void UnlockDash()
     {
         if (dashUnlockButton.unlocked)

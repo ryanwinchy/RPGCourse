@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillTreeSlotUI : MonoBehaviour , IPointerEnterHandler, IPointerExitHandler
+
+//Interfaces are for on and off hover, and then so we can save the skills,
+public class SkillTreeSlotUI : MonoBehaviour , IPointerEnterHandler, IPointerExitHandler, ISaveManager
 {
     UI ui;
     Image skillImage;
@@ -39,10 +41,14 @@ public class SkillTreeSlotUI : MonoBehaviour , IPointerEnterHandler, IPointerExi
 
         skillImage.color = lockedSkillColour;       //default for locked skills.
 
+        if (unlocked)
+            skillImage.color = Color.white;
     }
 
     public void UnlockSkillSlot()
     {
+        if (unlocked)       //So cant pay to unlock twice.
+            return;
 
         if (PlayerManager.instance.HaveEnoughCurrency(skillPrice) == false)     //Check if we have enough money for skill. If no, return, do not unlock.
             return;
@@ -78,5 +84,24 @@ public class SkillTreeSlotUI : MonoBehaviour , IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.skillTooltip.HideTooltip();
+    }
+
+    public void LoadData(GameData _data)
+    {
+        if (_data.savedSkillTree.TryGetValue(skillName, out bool value))   //From saved skill tree, see if this skill slot name is in list, if is get value and set unlocked in this script to it .
+        {
+            unlocked = value;
+        }
+    }
+
+    public void SaveData(ref GameData _data)       //Overview: If skill already saved in saved skill tree, remove then add. If not in saved skill tree, just add.
+    {
+        if (_data.savedSkillTree.TryGetValue(skillName, out bool value))   //use skillName as key. See if its already in saved Skill tree.
+        {
+            _data.savedSkillTree.Remove(skillName);                 //Remove existing saved skill tree for this skill slot. Otherwise get errors.
+            _data.savedSkillTree.Add(skillName, unlocked);           //Add this skill tree slot name , and the unlocked bool.
+        }
+        else
+            _data.savedSkillTree.Add(skillName, unlocked);          //If skill name was not in saved skill tree, add it and whether or not unlocked.
     }
 }

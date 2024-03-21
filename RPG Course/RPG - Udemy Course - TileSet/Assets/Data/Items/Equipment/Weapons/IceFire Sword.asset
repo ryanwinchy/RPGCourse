@@ -10,31 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023072d0ce69ac04bb8ee38426ad245c, type: 3}
-  m_Name: Stolen Sword
+  m_Name: IceFire Sword
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Stolen Sword
-  icon: {fileID: 1526008332, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
-  dropChance: 29.8
+  itemName: IceFire Sword
+  itemIcon: {fileID: 1398721256, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: efa3f80e5cb123e4695801e2ee6c3935
+  dropChance: 10
   equipmentType: 0
   itemCooldown: 0
-  itemEffects: []
+  itemEffects:
+  - {fileID: 11400000, guid: b03fbfc93f585d14da036d36d69a1cea, type: 2}
+  - {fileID: 11400000, guid: d033ab5872b839f4d864498213ae3054, type: 2}
   strength: 0
-  agility: 5
+  agility: 0
   intelligence: 0
   vitality: 0
-  damage: 12
-  critChance: 7
+  damage: 0
+  critChance: 0
   critPower: 0
   maxHealth: 0
   armour: 0
   evasion: 0
   magicResistance: 0
-  fireDamage: 0
-  iceDamage: 0
+  fireDamage: 3
+  iceDamage: 5
   lightningDamage: 0
   craftingMaterials:
-  - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
-    stackSize: 2
   - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
-    stackSize: 15
+    stackSize: 1

@@ -14,7 +14,7 @@ public class ItemObject : MonoBehaviour       //Script goes on in game item obje
         if (itemData == null)    //Good to do null checks otherwise we get errors.
             return;
 
-        GetComponent<SpriteRenderer>().sprite = itemData.icon;
+        GetComponent<SpriteRenderer>().sprite = itemData.itemIcon;
         gameObject.name = "Item object - " + itemData.name;       //Gives game object name from item data.
     }
 

@@ -22,7 +22,7 @@ public class CraftSlotUI : ItemSlotUI      //Inherits name and image from item s
 
         item.itemData = _data;      //Already have item (inherited). Assigning data to it.
 
-        itemImage.sprite = _data.icon;
+        itemImage.sprite = _data.itemIcon;
         itemText.text = _data.itemName;
 
         if (itemText.text.Length > 12)

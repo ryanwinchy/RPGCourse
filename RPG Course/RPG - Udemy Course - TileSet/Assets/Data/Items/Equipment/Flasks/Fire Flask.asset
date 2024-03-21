@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023072d0ce69ac04bb8ee38426ad245c, type: 3}
-  m_Name: IceFire Sword
+  m_Name: Fire Flask
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: IceFire Sword
-  icon: {fileID: 1398721256, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
-  dropChance: 10
-  equipmentType: 0
-  itemCooldown: 0
+  itemName: Fire Flask
+  itemIcon: {fileID: 1073501139, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: daf8fe933f96d58418db32265bf79fd3
+  dropChance: 0
+  equipmentType: 3
+  itemCooldown: 10
   itemEffects:
-  - {fileID: 11400000, guid: b03fbfc93f585d14da036d36d69a1cea, type: 2}
-  - {fileID: 11400000, guid: d033ab5872b839f4d864498213ae3054, type: 2}
-  uniqueItemEffectDescription: 'Unique: Does ice and fire damage, launches projectile.'
+  - {fileID: 11400000, guid: e88b09a81d71acd4d95e3e1d523d19eb, type: 2}
   strength: 0
   agility: 0
   intelligence: 0
@@ -33,9 +32,7 @@ MonoBehaviour:
   armour: 0
   evasion: 0
   magicResistance: 0
-  fireDamage: 3
-  iceDamage: 5
+  fireDamage: 0
+  iceDamage: 0
   lightningDamage: 0
-  craftingMaterials:
-  - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
-    stackSize: 1
+  craftingMaterials: []

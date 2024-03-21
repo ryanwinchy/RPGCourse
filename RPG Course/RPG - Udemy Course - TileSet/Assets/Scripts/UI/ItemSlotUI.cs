@@ -29,7 +29,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (item != null)
         {
-            itemImage.sprite = item.itemData.icon;
+            itemImage.sprite = item.itemData.itemIcon;
 
             if (item.stackSize > 1)
             {

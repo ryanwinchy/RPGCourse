@@ -47,6 +47,13 @@ public class CloneSkill : Skill
 
     #region Unlock Region
 
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockCloneAttack();
+        UnlockAggressiveClone();
+        UnlockMultiClone();
+        UnlockCrystalInstead();
+    }
     void UnlockCloneAttack()
     {
         if (cloneAttackUnlockButton.unlocked)

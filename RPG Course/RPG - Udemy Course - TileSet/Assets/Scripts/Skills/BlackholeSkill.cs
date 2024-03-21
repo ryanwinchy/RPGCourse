@@ -72,4 +72,11 @@ public class BlackholeSkill : Skill
     {
         return maxSize / 2;        //Radius of collider is set to 0.5, so we take half the scale to get the correct rad.
     }
+
+
+    protected override void CheckIfSkillLoaded()     //If we have save data with skill unlocked, have to run this to unlock the skills. Otherwise button shows unlocked but not skill.
+    {
+        UnlockBlackhole();
+    }
+
 }

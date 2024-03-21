@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023072d0ce69ac04bb8ee38426ad245c, type: 3}
-  m_Name: Golden Ring
+  m_Name: Stolen Sword
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Golden Ring
-  icon: {fileID: 1595223582, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
-  dropChance: 0
-  equipmentType: 2
+  itemName: Stolen Sword
+  itemIcon: {fileID: 367297872, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: d5b614b298dc2c645a4f9bf6b71bbede
+  dropChance: 29.8
+  equipmentType: 0
   itemCooldown: 0
   itemEffects: []
-  strength: 20
-  agility: 0
+  strength: 0
+  agility: 5
   intelligence: 0
   vitality: 0
-  damage: 0
-  critChance: 0
+  damage: 12
+  critChance: 7
   critPower: 0
-  maxHealth: 5
+  maxHealth: 0
   armour: 0
   evasion: 0
   magicResistance: 0
@@ -35,6 +36,6 @@ MonoBehaviour:
   lightningDamage: 0
   craftingMaterials:
   - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
-    stackSize: 1
+    stackSize: 2
   - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
-    stackSize: 1
+    stackSize: 15
