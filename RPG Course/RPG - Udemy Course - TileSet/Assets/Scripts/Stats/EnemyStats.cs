@@ -8,6 +8,8 @@ public class EnemyStats : CharacterStats
     Enemy enemy;
     ItemDrop dropSystem;
 
+    public Stat currencyDropAmount;
+
     [Header("Level Details")]
     [SerializeField] int level;
 
@@ -17,9 +19,12 @@ public class EnemyStats : CharacterStats
 
     protected override void Start()
     {
+        currencyDropAmount.SetDefaultValue(100);
+
         ApplyLevelModifiers();
 
         base.Start();                //Before base start, because base.start updates the health, so we want it to do that based on the modified health.
+
 
         enemy = GetComponent<Enemy>();
         dropSystem = GetComponent<ItemDrop>();
@@ -46,6 +51,8 @@ public class EnemyStats : CharacterStats
         Modify(iceDamage);
         Modify(lightningDamage);
 
+        Modify(currencyDropAmount);      // so higher level enemies drop more coins.
+
     }
 
     void Modify(Stat _stat)
@@ -68,6 +75,7 @@ public class EnemyStats : CharacterStats
         base.Die();
         enemy.Die();
 
+        PlayerManager.instance.currency += currencyDropAmount.GetValue();
         dropSystem.GenerateDrop();
     }
 }

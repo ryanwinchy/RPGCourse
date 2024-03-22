@@ -67,7 +67,7 @@ public class FileDataHandler
                     }
                 }
 
-                if (encryptData) 
+                if (encryptData)                                   //Decrypts the data to readable format if we encrypted it, becuase dont want vars changeable in save file.
                     dataToLoad = EncryptDecrypt(dataToLoad);
 
                 loadData = JsonUtility.FromJson<GameData>(dataToLoad);     //Convert from json back to GameData.

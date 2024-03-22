@@ -14,9 +14,14 @@ public class InGameUI : MonoBehaviour
     [SerializeField] Image blackholeImage;
     [SerializeField] Image flaskImage;
 
-    [SerializeField] TextMeshProUGUI currentCurrency;
-
     SkillManager skills;
+
+    [Header("Currency Info")]
+    [SerializeField] TextMeshProUGUI currentCurrency;
+    [SerializeField] float currencyAmount;
+    [SerializeField] float increaseRate = 100;
+
+
     void Start()
     {
         if (playerStats != null)
@@ -28,8 +33,7 @@ public class InGameUI : MonoBehaviour
 
     void Update()
     {
-
-        currentCurrency.text = PlayerManager.instance.GetCurrency().ToString("#,#");  //Formats with thousand commas for nums.
+        UpdateCurrencyUI();
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && skills.dash.dashUnlocked)
             SetCooldownOf(dashImage);
@@ -56,6 +60,17 @@ public class InGameUI : MonoBehaviour
         GetCooldownOf(blackholeImage, skills.blackhole.cooldown);
         GetCooldownOf(flaskImage, Inventory.instance.flaskCooldown);  //Whichever flask currently equipped.
 
+    }
+
+    private void UpdateCurrencyUI()
+    {
+        if (currencyAmount < PlayerManager.instance.GetCurrency())  //just visual. Shows currency counting up to the correct amt. Can change speed with the increaseRate var.
+            currencyAmount += Time.deltaTime * increaseRate;
+
+        else
+            currencyAmount = PlayerManager.instance.GetCurrency();
+
+        currentCurrency.text = ((int)currencyAmount).ToString("#,#");  //Formats with thousand commas for nums.
     }
 
     void UpdateHealthUI()

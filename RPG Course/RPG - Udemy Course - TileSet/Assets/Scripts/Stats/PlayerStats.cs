@@ -23,6 +23,9 @@ public class PlayerStats : CharacterStats
         base.Die();
         player.Die();        //accesses player, on player calls die func which just changes state to dead.
 
+        GameManager.instance.lostCurrencyAmount = PlayerManager.instance.currency;   //When die, your currency goes to your body for pickup.
+        PlayerManager.instance.currency = 0;                //Current currency on you goes to 0.
+
         GetComponent<PlayerItemDrop>()?.GenerateDrop();    //checks player item drop isnt null, if not, runs generate drop.
     }
 

@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class UI : MonoBehaviour        //Goes on menus to allow switching.
 {
+    [Header("End Screen")]
+    [SerializeField] FadeScreenUI fadeScreen;       //Call fade when die.
+    [SerializeField] GameObject diedText;
+    [SerializeField] GameObject restartButton;
+    [Space]
 
     [SerializeField] GameObject characterUI;
     [SerializeField] GameObject skillTreeUI;
@@ -25,6 +28,7 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
 
     private void Start()
     {
+        fadeScreen.gameObject.SetActive(true);
         SwitchTo(inGameUI);           //Dont want any menu UI when start game.
     }
 
@@ -46,9 +50,14 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
 
     public void SwitchTo(GameObject _menu)
     {
+
         for (int i = 0; i < transform.childCount; i++)       //Cycle through all children of canvas.
         {
-            transform.GetChild(i).gameObject.SetActive(false);  //Set them all inactive.
+
+            bool fadeScreen = transform.GetChild(i).GetComponent<FadeScreenUI>() != null;      //We search all children of canvas when we switch. Exclude fade screen from this, we need fade screen active.
+
+            if (!fadeScreen)
+                transform.GetChild(i).gameObject.SetActive(false);  //Set them all inactive.
         }
 
         if (_menu != null)               //Set menu we want to active.
@@ -71,14 +80,36 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
 
     void CheckForInGameUI()     //Checks if any menu active. If all off, switch to in game UI, so health and such in gameplay.
     {
-        for (int i = 0; i < transform.childCount; i++)       
+        for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).gameObject.activeSelf)
+            if (transform.GetChild(i).gameObject.activeSelf && transform.GetChild(i).GetComponent<FadeScreenUI>() == null)  //If component is not fade screen, dont have to return.
                 return;
 
             SwitchTo(inGameUI);
         }
     }
 
+
+    public void SwitchOnEndScreen()
+    {
+        //SwitchTo(null);        //So switch off menus and UI.  Looked worse.
+        fadeScreen.FadeOut();
+        StartCoroutine(EndScreenCoroutine());
+
+
+    }
+
+    IEnumerator EndScreenCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+
+        diedText.SetActive(true);    //Will make active, starting it's idle anim of fade in.
+
+        yield return new WaitForSeconds(1.5f);
+
+        restartButton.SetActive(true);
+    }
+
+    public void RestartGameButton() => GameManager.instance.RestartScene();
 
 }

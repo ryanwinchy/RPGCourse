@@ -13,13 +13,27 @@ public class GameData
     public SerializableDictionary<string, bool> savedSkillTree;      //String as skill name, bool as learned or not learned.
     public List<string> savedEquipmentIDs;        //List of equipment item IDs to save.
 
+    public SerializableDictionary<string, bool> savedCheckpoints;      //Checkpoint ID is string, bool is active or not.
+    public string savedClosestCheckpointID;
+
+    public float lostCurrencyPosX;
+    public float lostCurrencyPosY;
+    public int lostCurrencyAmount;
+
     public GameData()        //Constructor. When new game, everything defaults to 0.
     {
-        this.currency = 0;
+        lostCurrencyPosX = 0;
+        lostCurrencyPosY = 0;
+        lostCurrencyAmount = 0;
+
+        currency = 0;
 
         savedInventory = new SerializableDictionary<string, int>();
         savedSkillTree = new SerializableDictionary<string, bool>();
         savedEquipmentIDs = new List<string>();
+
+        savedClosestCheckpointID = string.Empty;      //Empty to start with.
+        savedCheckpoints = new SerializableDictionary<string, bool>();
 
     }
 

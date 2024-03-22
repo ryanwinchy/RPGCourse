@@ -77,9 +77,19 @@ public class SaveManager : MonoBehaviour
         return new List<ISaveManager>(saveManagers);
     }
 
+    public bool HasSavedData()
+    {
+        if (dataHandler.Load() != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 
     [ContextMenu("Delete Save File")]
-    void DeleteSavedData()
+    public void DeleteSavedData()
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
         dataHandler.DeleteSave();
