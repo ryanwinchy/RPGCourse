@@ -77,5 +77,7 @@ public class EnemyStats : CharacterStats
 
         PlayerManager.instance.currency += currencyDropAmount.GetValue();
         dropSystem.GenerateDrop();
+
+        Destroy(gameObject, 5f);     //Destroy dead enemy after 5 seconds.
     }
 }

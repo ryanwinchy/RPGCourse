@@ -70,7 +70,8 @@ public class CloneSkillController : MonoBehaviour    //This script is just setti
         {
             if (hit.GetComponent<Enemy>() != null)       //if hit an enemy in attack circle.
             {
-                
+                hit.GetComponent<Entity>().SetupKnockbackDir(transform);   //So knocksback entity getting damaged the correct direction.
+
                 PlayerStats playerStats = player.GetComponent<PlayerStats>();
                 EnemyStats enemyStats = hit.GetComponent<EnemyStats>();
 

@@ -73,7 +73,7 @@ public class SaveManager : MonoBehaviour
     List<ISaveManager> FindAllSaveManagers()
     {
         IEnumerable<ISaveManager> saveManagers = FindObjectsOfType<MonoBehaviour>().OfType<ISaveManager>();  //Return objects with monobehaviour implementing ISaveManager.
-                                                                                                          //Ienumerable holds collection of objects (saveManagers). Its iterable, like a list but more general.
+                                                                                                          //Ienumerable holds collection of objects (saveManagers). Its iterable, like a list but basic.
         return new List<ISaveManager>(saveManagers);
     }
 

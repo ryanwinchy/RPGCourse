@@ -1,7 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class UI : MonoBehaviour        //Goes on menus to allow switching.
+public class UI : MonoBehaviour, ISaveManager        //Goes on menus to allow switching.
 {
     [Header("End Screen")]
     [SerializeField] FadeScreenUI fadeScreen;       //Call fade when die.
@@ -19,6 +20,8 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
     public StatTooltipUI statTooltip;
     public CraftWindowUI craftWindow;
     public SkillTooltipUI skillTooltip;
+
+    [SerializeField] VolumeSliderUI[] volumeSettings;
 
 
     private void Awake()
@@ -61,8 +64,20 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
         }
 
         if (_menu != null)               //Set menu we want to active.
+        {
+            AudioManager.instance.PlaySFX(7, null);
             _menu.SetActive(true);
+        }
+
+        if (GameManager.instance != null)
+        {
+            if (_menu == inGameUI)       //If switching to in game UI, unpause.
+                GameManager.instance.PauseGame(false);
+            else                                 //Switching to any other menu pauses game.
+                GameManager.instance.PauseGame(true);
+        }
     }
+
 
     public void SwitchWithKeyTo(GameObject _menu)          //Change UI menu with key presses.
     {
@@ -112,4 +127,25 @@ public class UI : MonoBehaviour        //Goes on menus to allow switching.
 
     public void RestartGameButton() => GameManager.instance.RestartScene();
 
+    public void LoadData(GameData _data)
+    {
+        foreach (KeyValuePair<string, float> pair in _data.savedVolumeSettings)  //cycle thru dictionary of saved volume settings.
+        {
+            foreach (VolumeSliderUI item in volumeSettings)     //Go thru each sliderUI in this script, that need to be loaded.
+            {
+                if (item.parameter == pair.Key)          //if the parameter matches the key (its the same slider)...
+                    item.LoadSlider(pair.Value);          //Load the value to the sliders value! Super simple :)
+            }
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.savedVolumeSettings.Clear();    //Clear current saved settings to prevent errors.
+
+        foreach (VolumeSliderUI item in volumeSettings)         //Cycle thru volume sliders we have.
+        {
+            _data.savedVolumeSettings.Add(item.parameter, item.slider.value);   //To saved data add the parameter (linked to audio mixer) and the slider value.
+        }
+    }
 }

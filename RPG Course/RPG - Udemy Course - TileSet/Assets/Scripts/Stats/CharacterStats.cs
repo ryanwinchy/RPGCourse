@@ -49,8 +49,8 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
     public int currentHealth;
 
-    public bool isDead {  get; private set; }
-
+    public bool isDead { get; private set; }
+    public bool isInvincible { get; private set; }
     bool isVulnerable;
 
     public System.Action OnHealthChanged;     //New void event.
@@ -117,8 +117,13 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
     public virtual void DoDamage(CharacterStats _targetStats)         //Nice easy method to combine stats. targetStats is the target, like enemy. this script is the damager.
     {
+
+        bool criticalHit = false;
+
         if (TargetCanAvoidAttack(_targetStats))
             return;
+
+        _targetStats.GetComponent<Entity>().SetupKnockbackDir(transform);   //So knocksback entity getting damaged the correct direction.
 
         int totalDamage = damage.GetValue() + strength.GetValue();
 
@@ -128,8 +133,10 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
         {
             Debug.Log("Crit hit!");
             totalDamage = CalculateCriticalDamage(totalDamage);
+            criticalHit = true;
         }
 
+        entityFx.CreateHitFx(_targetStats.transform, criticalHit);    //When do damage, create hit FX on target (normal or crit different).  Could do it for each damage type, magic, crystal, sword throw but long.
 
         _targetStats.TakeDamage(totalDamage);            // Do physical damage.
 
@@ -310,6 +317,9 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
     #endregion
     public virtual void TakeDamage(int _damage)
     {
+        if (isInvincible)
+            return;
+
         DecreaseHealthBy(_damage);
 
         GetComponent<Entity>().DamageImpact();
@@ -338,6 +348,9 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
         currentHealth -= _damage;
 
+        if (_damage > 0)
+            entityFx.CreatePopUpText(_damage.ToString());
+
         if (OnHealthChanged != null)
             OnHealthChanged();             //Fire event, so healthbarUI updates.
     }
@@ -346,6 +359,14 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
     {
         isDead = true;
     }
+
+    public void KillEntity()
+    {
+        if (!isDead)                    //Prevents receiving souls twice , once when you kill, once when he falls off map, just to be safe.
+            Die();    //Calls die like if char falls off map. It's public where die is protected.
+    }
+
+    public void MakeInvincible(bool _invincible) => isInvincible = _invincible;
 
     #region Stat Calculcations
     protected int CheckTargetArmour(CharacterStats _targetStats, int totalDamage)

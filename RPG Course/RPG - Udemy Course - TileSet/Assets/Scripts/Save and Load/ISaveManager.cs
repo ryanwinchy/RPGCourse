@@ -7,6 +7,7 @@ using UnityEngine;
 //When put on a class, interface MUST be implemented.
 // When we did on hover for UI (pointerEnter and pointerExit), we added those functions by implementing their interface.
 //Just templates, the classes implementing it supply the function.
+//Gives a template that scripts MUST implement, but doesnt provide the code.
 public interface ISaveManager
 {
     void LoadData(GameData _data);

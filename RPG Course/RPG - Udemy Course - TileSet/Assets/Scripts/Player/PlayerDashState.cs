@@ -15,6 +15,9 @@ public class PlayerDashState : PlayerState
         player.skill.dash.CloneOnDash();                //Whenever we enter dash, a clown will spawn (if unlocked). 
 
         stateTimer = player.dashDuration;
+
+
+        player.stats.MakeInvincible(true);    //i frames while in this state.
         
         
     }
@@ -25,6 +28,8 @@ public class PlayerDashState : PlayerState
 
         player.skill.dash.CloneOnArrival();                  //Create clone on exit if unlocked.   
         player.SetVelocity(0, rb.velocity.y);
+
+        player.stats.MakeInvincible(false);
     }
 
     public override void Update()
@@ -39,6 +44,7 @@ public class PlayerDashState : PlayerState
         if (stateTimer < 0)
             stateMachine.ChangeState(player.idleState);
         
+        player.fx.CreateDashTrail();  //Creates trail when dashing. Function checks for cooldown itself.
 
     }
 }

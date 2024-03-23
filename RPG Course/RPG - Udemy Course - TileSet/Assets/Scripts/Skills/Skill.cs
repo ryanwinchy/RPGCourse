@@ -5,7 +5,7 @@ using UnityEngine;
 public class Skill : MonoBehaviour     //All skills will inherit from this. So this script needs the stuff every skill has.
 {
     [SerializeField] public float cooldown;  //All skills will have cooldown, if not can set to 0.
-    protected float cooldownTimer;
+    public float cooldownTimer;
 
     protected Player player;
 
@@ -35,7 +35,7 @@ public class Skill : MonoBehaviour     //All skills will inherit from this. So t
             return true;
         }
 
-        Debug.Log("Skill is on cooldown");
+        player.fx.CreatePopUpText("Skill on cooldown");
         return false;
     }
 

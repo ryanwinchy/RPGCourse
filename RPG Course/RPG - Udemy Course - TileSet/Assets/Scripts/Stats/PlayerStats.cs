@@ -33,6 +33,15 @@ public class PlayerStats : CharacterStats
     {
         base.DecreaseHealthBy(_damage);
 
+        if (_damage > GetMaxHealthValue() * 0.3f)      //if enemy does huge damage, 30% of our max. Do big knockback and special audio.
+        {
+            player.SetKnockbackPower(new Vector2 (10, 6));
+            player.fx.ScreenShake(player.fx.shakeHighDamage);
+
+            int randomSound = Random.Range(34, 35);             //As there are two girl screaming effects, this will vary it.
+            AudioManager.instance.PlaySFX(randomSound, null);
+        }
+
         ItemDataEquipment currentArmour = Inventory.instance.GetEquipment(EquipmentType.Armour);
 
         if (currentArmour != null)     //if your armour has an effect, execute it when take damage. This is applying the modifier loads of times, needs cleanup.

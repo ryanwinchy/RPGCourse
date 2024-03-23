@@ -33,9 +33,11 @@ public class ItemObject : MonoBehaviour       //Script goes on in game item obje
         if (!Inventory.instance.CanAddItem() && itemData.itemType == ItemType.Equipment)     //If inventory slots full and is equipment, dont pick up.
         {                                                                                    //Inventory is for equip only, mats go different inventory.
             rb.velocity = new Vector2(0, 7);   //Bounces a bit when can't pickup.
+            PlayerManager.instance.player.fx.CreatePopUpText("Inventory is full");
             return;
         }
 
+        AudioManager.instance.PlaySFX(18, transform);       //Transform of object script is on.
         Inventory.instance.AddItem(itemData);
         Destroy(gameObject);   //Item picked up.
     }

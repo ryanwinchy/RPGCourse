@@ -20,10 +20,13 @@ public class Enemy : Entity                //Basically sets up new state machine
 
     [Header("Attack Info")]
     public float attackDistance;
-    public float attackCooldown;
+    public float attackCooldown;   //Time between attacks, should be a bit randomized.
+    public float minAttackCooldown;
+    public float maxAttackCooldown;
     [HideInInspector] public float lastTimeAttacked;
 
     public EnemyStateMachine stateMachine { get; private set; }
+    public EntityFX fx { get; private set; }
     public string lastAnimBoolName {  get; private set; }
 
 
@@ -33,6 +36,13 @@ public class Enemy : Entity                //Basically sets up new state machine
        stateMachine = new EnemyStateMachine();
 
         defaultMoveSpeed = moveSpeed;         //As speed may be changed by other methods, need the default.
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        fx = GetComponent<EntityFX>();
     }
 
     protected override void Update()

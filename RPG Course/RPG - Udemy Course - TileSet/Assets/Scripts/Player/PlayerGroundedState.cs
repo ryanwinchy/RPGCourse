@@ -22,8 +22,15 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.R) && player.skill.blackhole.blackholeUnlocked)
+        if (Input.GetKeyDown(KeyCode.R) && player.skill.blackhole.blackholeUnlocked)   //Check its not on cooldown, or it will enter state but not use skill.
+        {
+            if (player.skill.blackhole.cooldownTimer > 0)
+            {
+                player.fx.CreatePopUpText("Skill on cooldown!");
+                return;
+            }
             stateMachine.ChangeState(player.blackholeState);
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skill.sword.throwSwordUnlocked)        //Checks for input, and that player does not already have a sword. The var must be null.
             stateMachine.ChangeState(player.aimSwordState);

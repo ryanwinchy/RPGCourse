@@ -13,6 +13,8 @@ public class PlayerAnimationTriggers : MonoBehaviour
 
     private void AttackTrigger()     //Play on animation frame attack hits.
     {
+        AudioManager.instance.PlaySFX(2, null);    //No distance check as on player, always want to hear it.
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);  //temp array of all colliders in attack circle when called.
 
         foreach (Collider2D hit in colliders)

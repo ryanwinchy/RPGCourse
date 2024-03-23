@@ -11,11 +11,15 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+
+        AudioManager.instance.PlaySFX(14, null);    //Dont need distance checks as coming from player.
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        AudioManager.instance.StopSFX(14);    //Stop footsteps when exit move state.
     }
 
     public override void Update()

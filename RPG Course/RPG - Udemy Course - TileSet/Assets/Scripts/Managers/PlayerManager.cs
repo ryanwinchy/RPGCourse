@@ -34,11 +34,11 @@ public class PlayerManager : MonoBehaviour, ISaveManager           //This script
 
     public void LoadData(GameData _data)
     {
-        currency = _data.currency;
+        currency = _data.savedCurrency;
     }
 
     public void SaveData(ref GameData _data)     //Reference sends the actual ref to the original variable, not a copy like normal arguments. So changing the parameter it receives also changes the original.
     {
-        _data.currency = currency;
+        _data.savedCurrency = currency;
     }
 }

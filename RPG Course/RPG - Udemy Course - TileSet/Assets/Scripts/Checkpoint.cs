@@ -30,6 +30,9 @@ public class Checkpoint : MonoBehaviour
 
     public void ActivateCheckpoint()
     {
+        if (!isActivated)          //So only plays once on activation.
+            AudioManager.instance.PlaySFX(5, transform);     //Transform of object this script is on.
+
         isActivated = true;
         animator.SetBool("active", true);
     }

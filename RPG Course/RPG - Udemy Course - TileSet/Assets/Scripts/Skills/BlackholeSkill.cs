@@ -40,6 +40,9 @@ public class BlackholeSkill : Skill
         currentBlackhole = newBlackhole.GetComponent<BlackholeSkillController>();
 
         currentBlackhole.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, numAttacks, cloneCooldown, blackholeDuration);
+
+        AudioManager.instance.PlaySFX(6, player.transform);
+        AudioManager.instance.PlaySFX(3, player.transform);
     }
 
     protected override void Start()

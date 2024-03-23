@@ -265,6 +265,7 @@ public class SwordSkillController : MonoBehaviour     //Attached to sword game o
 
         rb.isKinematic = true;      //Change from dynamic to kinematic.
         rb.constraints = RigidbodyConstraints2D.FreezeAll;        //Freeze all constraints, same as inspector.
+        GetComponentInChildren<ParticleSystem>().Play();    //Play dust particle system upon getting stuck.
 
         if (isBouncing && enemyTargets.Count > 0)      //If bouncing return, do not end animation or make child of collided object.   > 0 means if hit ground or only one enemy, can still get stuck.
             return;

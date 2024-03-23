@@ -88,6 +88,8 @@ public class CrystalSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)      //if hit an enemy in attack circle.
             {
+                hit.GetComponent<Entity>().SetupKnockbackDir(transform);   //So knocksback entity getting damaged the correct direction.
+
                 player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());        //access the players stats, DoMagicDamage function targeted at the hit enemy's stats.
 
 

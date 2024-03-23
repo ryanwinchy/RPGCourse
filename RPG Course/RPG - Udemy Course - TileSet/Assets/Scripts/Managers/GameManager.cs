@@ -144,4 +144,15 @@ public class GameManager : MonoBehaviour, ISaveManager
         return closestCheckpoint;
 
     }
+
+
+    public void PauseGame(bool _pause)    //Simple function to pause and unpause game.
+    {
+        if (_pause)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
+    }
+
+
 }

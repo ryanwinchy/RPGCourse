@@ -29,6 +29,7 @@ public class Player : Entity
 
     public SkillManager skill { get; private set; }
     public GameObject sword { get; private set; }
+    public PlayerFX fx { get; private set; }
 
 
     #region States
@@ -84,6 +85,8 @@ public class Player : Entity
     {
         base.Start();          //Runs base start (entity), which gets ref to rb and animator.
 
+        fx = GetComponent<PlayerFX>();
+
         skill = SkillManager.instance;         //This means in other scripts, can just type player.skill instead of SkillManager.instance.
         stateMachine.Initialize(idleState);
 
@@ -96,6 +99,10 @@ public class Player : Entity
 
     protected override void Update()
     {
+
+        if (Time.timeScale == 0)      //If game paused, dont accept player input.
+            return;
+
         base.Update();
 
         stateMachine.currentState.Update();
@@ -184,5 +191,9 @@ public class Player : Entity
         stateMachine.ChangeState(deadState);
     }
 
+    protected override void SetupZeroKnockbackPower()
+    {
+        knockbackPower = new Vector2 (0,0);
+    }
 
 }

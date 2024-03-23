@@ -16,12 +16,15 @@ public class PlayerCatchSwordState : PlayerState
 
         sword = player.sword.transform;       //Get sword transform from player.
 
+        player.fx.PlayDustFX();
+        player.fx.ScreenShake(player.fx.shakeSwordImpact);
+
         if (player.transform.position.x > sword.position.x && player.facingDir == 1)       //If catch sword on left but facing right, flip.
             player.Flip();
         else if (player.transform.position.x < sword.position.x && player.facingDir == -1) //If catch sword on right but facing left, flip.
             player.Flip();
 
-        rb.velocity = new Vector2(player.swordReturnImpact * - player.facingDir, rb.velocity.y);  //When we enter sword catch, apply a bit of negative knockback.
+        rb.velocity = new Vector3(player.swordReturnImpact * - player.facingDir, rb.velocity.y);  //When we enter sword catch, apply a bit of negative knockback.
     }
 
     public override void Exit()

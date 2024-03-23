@@ -18,6 +18,9 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        //AudioManager.instance.PlaySFX(2);
+
         xInput = 0;      //Bug fix. x input was being saved from a previous state. Meant would sometimes attack left when facing right.
 
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
