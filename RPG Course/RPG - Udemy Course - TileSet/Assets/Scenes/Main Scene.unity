@@ -9050,7 +9050,7 @@ GameObject:
   - component: {fileID: 585511489}
   - component: {fileID: 585511488}
   m_Layer: 0
-  m_Name: Inventory
+  m_Name: InventoryManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9092,6 +9092,28 @@ MonoBehaviour:
   stashSlotParent: {fileID: 1925744698}
   equipmentSlotParent: {fileID: 1576381279}
   statSlotParent: {fileID: 1567586467}
+  itemDatabase:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: c0fb03e76a5eae14bbdd24b276051e20, type: 2}
+  - {fileID: 11400000, guid: c4fe182db970950489196d72ce9d6420, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 7b0f4b215cf9fb84d95c84165dc70298, type: 2}
+  - {fileID: 11400000, guid: 9401f835dd6e54b4fbf3a1aeb97d6549, type: 2}
+  - {fileID: 11400000, guid: 01808d7ee13958647a3d85bb32a647b9, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: aeffcb507ee0bc34a8b6a3f30e2815ef, type: 2}
+  - {fileID: 11400000, guid: daf8fe933f96d58418db32265bf79fd3, type: 2}
+  - {fileID: 11400000, guid: 44197e3bacb29c74caa28f9d64eed4bc, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 37867dc5b37abb64db093532085058a5, type: 2}
+  - {fileID: 11400000, guid: efa3f80e5cb123e4695801e2ee6c3935, type: 2}
+  - {fileID: 11400000, guid: d5b614b298dc2c645a4f9bf6b71bbede, type: 2}
+  - {fileID: 11400000, guid: 4844ad5e7d8e14543965a5d63ac00e14, type: 2}
+  - {fileID: 11400000, guid: 2fe6e8815404dbc4799b4fd2d1662e29, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
+  - {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
   loadedItems: []
   loadedEquipment: []
 --- !u!4 &585511489
@@ -30288,6 +30310,7 @@ MonoBehaviour:
   unlockCrystalMirageButton: {fileID: 854800218}
   cloneInsteadOfCrystal: 0
   unlockExplosiveButton: {fileID: 1925967924}
+  explosiveCooldown: 0
   canExplode: 0
   unlockMovingCrystalButton: {fileID: 62261170}
   canMoveToEnemy: 0
@@ -35435,7 +35458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -44184,13 +44207,13 @@ SceneRoots:
   - {fileID: 2047727864}
   - {fileID: 5533523905531610219}
   - {fileID: 1628400334}
+  - {fileID: 585511489}
   - {fileID: 1815810862}
   - {fileID: 1195560130}
   - {fileID: 1442852432}
   - {fileID: 1724892634}
   - {fileID: 4395105038740882141}
   - {fileID: 1894122806}
-  - {fileID: 585511489}
   - {fileID: 1992248802}
   - {fileID: 423041767}
   - {fileID: 1300118145}

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public enum EquipmentType { Weapon, Armour, Amulet, Flask }
@@ -25,9 +23,9 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
     public int vitality;           //1 point increase healthy by 3.
 
     [Header("Offensive Stats")]
-    public int damage;              
+    public int damage;
     public int critChance;
-    public int critPower;            
+    public int critPower;
 
     [Header("Defensive Stats")]
     public int maxHealth;
@@ -44,7 +42,7 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
     public List<InventoryItem> craftingMaterials;
 
     int descriptionLength;         //This is so toolTip box will always have a min size, to avoid too much resizing.
-    
+
 
     public void ExecuteItemEffect(Transform _enemyPosition)
     {
@@ -132,7 +130,7 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
                 stringBuilder.AppendLine();      //Line above and below.
                 stringBuilder.AppendLine("Unique: " + itemEffects[i].effectDescription);
 
-                descriptionLength ++;           //Add line to description length so knows when to resize box.
+                descriptionLength++;           //Add line to description length so knows when to resize box.
             }
         }
 
@@ -145,7 +143,7 @@ public class ItemDataEquipment : ItemData       //Exactly the same as itemData s
             }
         }
 
- 
+
 
         return stringBuilder.ToString();
     }

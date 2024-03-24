@@ -13,7 +13,7 @@ public class Skill : MonoBehaviour     //All skills will inherit from this. So t
     {
         player = PlayerManager.instance.player;          //This simply gives all skills inheriting from this a reference to player info so can get its transform etc... Eg, sword skill uses it.
 
-        CheckIfSkillLoaded();
+        Invoke("CheckIfSkillLoaded", 0.2f);     //Load skills slightly after, so will check if unlocked. Had bug where skills were unlocked in tree but not working. FIXED MY OWN BUG :D
     }
 
     protected virtual void Update()    //inheritable.

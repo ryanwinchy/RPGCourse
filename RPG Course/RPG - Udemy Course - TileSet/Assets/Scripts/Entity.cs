@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -58,7 +57,7 @@ public class Entity : MonoBehaviour
 
     }
 
-    public virtual void SlowEntityBy( float _slowPercentage, float _slowDuration)   //Override this, different for player and enemies with their own speed stats.
+    public virtual void SlowEntityBy(float _slowPercentage, float _slowDuration)   //Override this, different for player and enemies with their own speed stats.
     {
 
     }
@@ -66,7 +65,7 @@ public class Entity : MonoBehaviour
     protected virtual void ReturnToDefaultSpeed() => anim.speed = 1;
 
     public virtual void DamageImpact() => StartCoroutine("HitKnockback");
-      
+
     public virtual void SetupKnockbackDir(Transform _damageDirection)
     {
         if (_damageDirection.position.x > transform.position.x)   //Damage coming from right, so knockback to left.
@@ -74,7 +73,7 @@ public class Entity : MonoBehaviour
         else if (_damageDirection.position.x < transform.position.x)   //Damage from left, knockback to right.
             knockbackDir = 1;
     }
- 
+
 
     protected virtual IEnumerator HitKnockback()
     {
@@ -102,7 +101,7 @@ public class Entity : MonoBehaviour
             return;
 
         rb.velocity = new Vector2(0, 0);
-    } 
+    }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {

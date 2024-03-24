@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     float armourCooldown;
 
     [Header("Database")]       //This database has all the possible item ids, then when we load file we see which ids we have, and add to inventory.
+    public List<ItemData> itemDatabase;
     public List<InventoryItem> loadedItems;
     public List<ItemDataEquipment> loadedEquipment;
 
@@ -373,7 +374,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     {
         foreach (KeyValuePair<string, int> pair in _data.savedInventory)    //Cycle thru each pair in saved data. string is itemID , int is stack.
         {
-            foreach (ItemData item in GetItemDatabase())       //Cycle thru itemData in database of all items in the game.
+            foreach (ItemData item in itemDatabase)       //Cycle thru itemData in database of all items in the game.
             {
                 if (item != null && item.itemId == pair.Key)     //Compare saved itemID (string) to itemId in database of all items.
                 {
@@ -387,7 +388,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
         foreach (string itemID in _data.savedEquipmentIDs)       //Go thru IDs in saved equipment ID list.
         {
-            foreach (ItemData item in GetItemDatabase())        //Go thru all item IDs of all possible items from database.
+            foreach (ItemData item in itemDatabase)        //Go thru all item IDs of all possible items from database.
             {
                 if (item != null && itemID == item.itemId)        //If item ID saved matches database id value of all items.
                 {
@@ -421,7 +422,9 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     }
 
-
+#if UNITY_EDITOR        // This if means when build, this code is not included. Its only for unity error. Thats why we filling up the database within Unity with the list and context menu.
+    [ContextMenu("Fill up item data base")]        //Runs when right click on script in unity, had to make it a list to prevent build error. We did at very end. Before we just called GetItemDatabase() instead of using var.
+    void FillUpItemDatabase() => itemDatabase = new List<ItemData>(GetItemDatabase());   //////WHENEVER YOU CREATE NEW ITEMS, RIGHT CLICK ON SCRIPT, FILL UP DATABASE!///////
 
     List<ItemData> GetItemDatabase()
     {
@@ -437,7 +440,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
         return itemDatabase;
     }
-
+#endif
 
 
 
