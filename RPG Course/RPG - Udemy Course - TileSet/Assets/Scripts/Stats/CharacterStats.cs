@@ -120,6 +120,9 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
         bool criticalHit = false;
 
+        if (_targetStats.isInvincible)    //Dont run damage script , no damage or fx.
+            return;
+
         if (TargetCanAvoidAttack(_targetStats))
             return;
 

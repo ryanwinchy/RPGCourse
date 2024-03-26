@@ -28,7 +28,7 @@ public class SkeletonIdleState : SkeletonGroundedState
 
         if (stateTimer < 0)                                   //At end of idle timer (eg 1.5 seconds), changes to move state.
             stateMachine.ChangeState(enemy.moveState);
-
-
     }
+
+
 }

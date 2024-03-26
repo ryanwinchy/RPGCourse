@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//This is aggro state. Aggro clearer name.
 public class SkeletonBattleState : EnemyState
 {
     Transform player;

@@ -32,20 +32,27 @@ public class PlayerCounterAttackState : PlayerState
 
         foreach (Collider2D hit in colliders)             //for each collider in the radius.
         {
-            if ((hit.GetComponent<Enemy>() != null) && (hit.GetComponent<Enemy>().CanBeStunned()))      //if hit enemy, check if enemy can be stunned (has to be right timing window). Can be stunned changes enemy to stunned state.
+
+            if (hit.GetComponent<ArrowController>() != null)   //If you counter and you have an arrow in your attack radius.
             {
-                stateTimer = 100f;     //Just an arbitrary big num, so doesnt exit state because of timer if hits.
-                player.anim.SetBool("SuccessfulCounterAttack", true);     //Make anim go to successful counter. On this anim, we have an event to make triggerCalled = true, so we exit to idle below.
-
-                player.skill.parry.UseSkill();    //Uses skill to restore health on parry.
-
-                if (canCreateClone)
-                {
-                    canCreateClone = false;       //So if you counter two at once, only creates one clone.
-                    player.skill.parry.MakeMirageOnParry(hit.transform);
-                }
-
+                hit.GetComponent<ArrowController>().FlipArrow();       //Flip arrow, send it back from whence it came!
+                SuccessfulCounterAttack();   //Success counter animation.
             }
+
+
+            if ((hit.GetComponent<Enemy>() != null) && (hit.GetComponent<Enemy>().CanBeStunned()))      //if hit enemy, check if enemy can be stunned (has to be right timing window). Can be stunned changes enemy to stunned state.
+                {
+                    SuccessfulCounterAttack();
+
+                    player.skill.parry.UseSkill();    //Uses skill to restore health on parry.
+
+                    if (canCreateClone)
+                    {
+                        canCreateClone = false;       //So if you counter two at once, only creates one clone.
+                        player.skill.parry.MakeMirageOnParry(hit.transform);
+                    }
+
+                }
         }
 
         if (stateTimer < 0 || triggerCalled)        //If counter was not successful, exit state based on timer of counter attempt state (this).
@@ -53,7 +60,9 @@ public class PlayerCounterAttackState : PlayerState
 
     }
 
-
-
-
+    private void SuccessfulCounterAttack()
+    {
+        stateTimer = 100f;     //Just an arbitrary big num, so doesnt exit state because of timer if hits.
+        player.anim.SetBool("SuccessfulCounterAttack", true);     //Make anim go to successful counter. On this anim, we have an event to make triggerCalled = true, so we exit to idle below.
+    }
 }

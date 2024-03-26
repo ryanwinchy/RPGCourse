@@ -18,17 +18,18 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knockback Info")]
-    [SerializeField] protected Vector2 knockbackPower;
-    [SerializeField] protected float knockbackDuration;
+    [SerializeField] protected Vector2 knockbackPower = new Vector2 (7,12);
+    [SerializeField] protected Vector2 knockbackOffset = new Vector2 (0.5f,2);
+    [SerializeField] protected float knockbackDuration = 0.07f;
     protected bool isKnocked;
 
     [Header("Collision info")]
     public Transform attackCheck;
-    public float attackCheckRadius;
+    public float attackCheckRadius = 1.2f;
     [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
+    [SerializeField] protected float groundCheckDistance = 1;
     [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance;
+    [SerializeField] protected float wallCheckDistance = 0.8f;
     [SerializeField] protected LayerMask whatIsGround;
 
     public int knockbackDir { get; private set; }
@@ -78,8 +79,11 @@ public class Entity : MonoBehaviour
     protected virtual IEnumerator HitKnockback()
     {
         isKnocked = true;
+        
+        float xOffset = Random.Range(knockbackOffset.x, knockbackOffset.y);      //Random between first and second value in the var (thats why we used vector 2). doesnt mean x and y axis.
 
-        rb.velocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y);
+
+        rb.velocity = new Vector2((knockbackPower.x + xOffset) * knockbackDir, knockbackPower.y);    //the offset is to add some randomness to the knockback. Can set to 0 on enemies we dont want that for.
 
         yield return new WaitForSeconds(knockbackDuration);
         isKnocked = false;       //This bool blocks movement in set velocity function.
@@ -122,7 +126,7 @@ public class Entity : MonoBehaviour
     protected virtual void OnDrawGizmos()      //Draws line down to visualize the ground check, deawns line right to visualize wall check.
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y));
         Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);    //Visualize attack radius.
     }
     #endregion
@@ -144,6 +148,14 @@ public class Entity : MonoBehaviour
             Flip();
         else if (_x < 0 && facingRight)
             Flip();
+    }
+
+    public virtual void SetupDefaultFacingDir(int _direction)
+    {
+        facingDir = _direction;
+
+        if (facingDir == -1)
+            facingRight = false;
     }
 
     #endregion

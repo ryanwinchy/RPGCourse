@@ -2,27 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]             //This is so when we create new types of enemies, we don't forget to put all these components onto the game object.
+[RequireComponent(typeof(CapsuleCollider2D))]     //When put on enemy (or a child) it will automatically gives all these components <---- pretty cool!
+[RequireComponent(typeof(EnemyStats))]
+[RequireComponent(typeof(EntityFX))]
+[RequireComponent(typeof(ItemDrop))]
 public class Enemy : Entity                //Basically sets up new state machine on enemy game object.
 {
     [SerializeField] protected LayerMask whatIsPlayer;
 
     [Header("Stunned Info")]
-    public float stunDuration;
-    public Vector2 stunDirection;
+    public float stunDuration = 1;
+    public Vector2 stunDirection = new Vector2 (10, 12);
     protected bool canBeStunned;
     [SerializeField] protected GameObject counterImage;  //Red square when enemy attacks so know when to time counter.
 
     [Header("Move Info")]
-    public float moveSpeed;
-    public float idleTime;
-    public float battleTime;   //How long he should be in battle (agro) state.
-    float defaultMoveSpeed;  
+    public float moveSpeed = 1.5f;
+    public float idleTime = 2;
+    public float battleTime = 7;  //How long he should be in battle (agro) state.
+    float defaultMoveSpeed;
 
     [Header("Attack Info")]
-    public float attackDistance;
+    public float aggroDistance = 2;
+    public float attackDistance = 2;
     public float attackCooldown;   //Time between attacks, should be a bit randomized.
-    public float minAttackCooldown;
-    public float maxAttackCooldown;
+    public float minAttackCooldown = 1;
+    public float maxAttackCooldown = 2;
     [HideInInspector] public float lastTimeAttacked;
 
     public EnemyStateMachine stateMachine { get; private set; }
@@ -134,5 +140,9 @@ public class Enemy : Entity                //Basically sets up new state machine
     }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public virtual void AnimationSpecialAttackTrigger()  //if enemy has a special attack, like archer arrow, override.
+    {
+
+    }
 
 }            

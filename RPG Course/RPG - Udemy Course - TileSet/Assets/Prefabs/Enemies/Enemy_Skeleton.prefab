@@ -10020,6 +10020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackPower: {x: 7, y: 12}
+  knockbackOffset: {x: 0.5, y: 2}
   knockbackDuration: 0.07
   attackCheck: {fileID: 5855097228454390678}
   attackCheckRadius: 1.2
@@ -10039,6 +10040,7 @@ MonoBehaviour:
   moveSpeed: 2
   idleTime: 1
   battleTime: 4
+  aggroDistance: 2
   attackDistance: 1.99
   attackCooldown: 0.4
   minAttackCooldown: 0.3
@@ -10083,6 +10085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa510c8c903ea946bc22f1ea1af989b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popUpTextPrefab: {fileID: 5065631372279351427, guid: c6d2e5fbd10a3f744866caaa7fd91f12, type: 3}
   hitMaterial: {fileID: 2100000, guid: 2a8128985b3b96b478bbeb0c34e06859, type: 2}
   flashTime: 0.2
   chillColour:

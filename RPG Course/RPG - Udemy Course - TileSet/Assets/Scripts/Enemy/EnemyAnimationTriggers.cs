@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySkeletonAnimationTriggers : MonoBehaviour
+public class EnemyAnimationTriggers : MonoBehaviour
 {
-    EnemySkeleton enemy;
+    Enemy enemy;
 
     private void Awake()
     {
-        enemy = GetComponentInParent<EnemySkeleton>();
+        enemy = GetComponentInParent<Enemy>();
     }
 
     void AnimationTrigger() => enemy.AnimationFinishTrigger();
@@ -27,6 +27,11 @@ public class EnemySkeletonAnimationTriggers : MonoBehaviour
                 enemy.stats.DoDamage(_target);        //Can call as entity script has ref to 'characterstats' script (stats) which has DoDamage func.
             }
         }
+    }
+
+    void SpecialAttackTrigger()   //like archer ranged attack.
+    {
+        enemy.AnimationSpecialAttackTrigger();
     }
 
     void OpenCounterWindow() => enemy.OpenCounterAttackWindow();
