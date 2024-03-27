@@ -34,12 +34,16 @@ public class EntityFX : MonoBehaviour
     [SerializeField] GameObject hitFx;
     [SerializeField] GameObject critHitFx;
 
+    GameObject healthBar;
+
 
 
     protected virtual void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         player = PlayerManager.instance.player;
+
+        healthBar = GetComponentInChildren<HealthBarUI>().gameObject;
 
         originalMaterial = spriteRenderer.material;
 
@@ -70,9 +74,18 @@ public class EntityFX : MonoBehaviour
     public void MakeTransparent(bool transparent)
     {
         if (transparent)
+        {
+            healthBar.SetActive(false);
             spriteRenderer.color = Color.clear;
+        }
         else
+        {
+            healthBar.SetActive(true);
+
             spriteRenderer.color = Color.white;
+        }
+     
+        
     }
 
     IEnumerator FlashFX()

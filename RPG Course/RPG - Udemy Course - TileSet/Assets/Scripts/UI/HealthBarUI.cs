@@ -3,23 +3,24 @@ using UnityEngine.UI;
 
 public class HealthBarUI : MonoBehaviour
 {
-    Entity entity;
-    CharacterStats stats;
+    Entity entity => GetComponentInParent<Entity>();
+    CharacterStats stats => GetComponentInParent<CharacterStats>();
     RectTransform rectTransform;    //Canvas, so is rect transform.
 
     Slider slider;
 
     private void Start()
     {
-        entity = GetComponentInParent<Entity>();
         rectTransform = GetComponent<RectTransform>();
         slider = GetComponentInChildren<Slider>();
-        stats = GetComponentInParent<CharacterStats>();
+       
+        UpdateHealthUI();    //Run once at start.
+    }
 
+    private void OnEnable()
+    {
         entity.OnFlipped += FlipUI;       //subscribes to event. Whenever onflipped event triggered in entity script, FlipUI on this script will also run!
         stats.OnHealthChanged += UpdateHealthUI;  //Subscribes to event, when OnHealthChanged event triggered in char stats script, this will run. More efficient than putting this in update func, good practice.
-
-        UpdateHealthUI();    //Run once at start.
     }
 
     void UpdateHealthUI()
@@ -36,7 +37,9 @@ public class HealthBarUI : MonoBehaviour
 
     private void OnDisable()    //Good to unsubscribe from events. Good for resources, and prevent event leak (object kept alive only because actively subscribed to event).
     {
-        entity.OnFlipped -= FlipUI;
-        stats.OnHealthChanged -= UpdateHealthUI;
+        if (entity != null)
+            entity.OnFlipped -= FlipUI;
+        if (stats != null)
+            stats.OnHealthChanged -= UpdateHealthUI;
     }
 }

@@ -11,7 +11,7 @@ public class EnemyAnimationTriggers : MonoBehaviour
         enemy = GetComponentInParent<Enemy>();
     }
 
-    void AnimationTrigger() => enemy.AnimationFinishTrigger();
+    void AnimationTrigger() => enemy.AnimationFinishTrigger();   //This is when we want to make an event in the anim that triggers some functionality in the code. But generic, can be used for anything.
 
     void AttackTrigger()   //Play on animation frame attack hits.
     {

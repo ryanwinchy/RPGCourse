@@ -73,7 +73,7 @@ public class EnemyStats : CharacterStats
     protected override void Die()
     {
         base.Die();
-        enemy.Die();
+        enemy.Die();         //Wow, this ref to Enemy gets the Die() method from children of enemy, like ShadyEnemy. I think this ref goes to entity's Die() empty method, which has been override. Interesting, good to know these webs of inheritance and how refs work!
 
         PlayerManager.instance.currency += currencyDropAmount.GetValue();
         dropSystem.GenerateDrop();

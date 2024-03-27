@@ -126,8 +126,21 @@ public class Enemy : Entity                //Basically sets up new state machine
         return false;
     }
 
-    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50f, whatIsPlayer);      //Same as ground / wall check but returns raycast hit for a lot of info. Like collider, game object of what it detects.
-                                                                                                                                                //Distance of 50 is enemy line of sight.
+    public virtual RaycastHit2D IsPlayerDetected()
+    {
+
+
+        RaycastHit2D playerDetected;
+        playerDetected = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50f, whatIsPlayer);      //Same as ground / wall check but returns raycast hit for a lot of info. Like collider, game object of what it detects.
+                                                                                                  //Distance of 50 is enemy line of sight.
+        RaycastHit2D wallDetected = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 51f, whatIsGround);  //Enemy Line of sight checks for walls.
+
+        if (wallDetected)
+            return default(RaycastHit2D);    //Returns false, no player, no aggro.
+
+        return playerDetected;     //If no wall and detects player, returns player raycast.
+
+    }
 
     protected override void OnDrawGizmos()    //Overriding from base method to make it yellow and draw another line for the attack.
     {
