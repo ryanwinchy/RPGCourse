@@ -59,7 +59,7 @@ public class CharacterStats : MonoBehaviour     //base stat class. These stats, 
 
     protected virtual void Start()           //Found bug. If this was private (not protected virtual), charStats and EnemyStats can't override (even if just keep base), so had no current health. Important to understand.
     {
-        critPower.SetDefaultValue(150);         //All entities in game with stats, have 150% crit by default.
+        critPower.SetDefaultValue(200);         //All entities in game with stats, have 150% crit by default.
         currentHealth = GetMaxHealthValue();
 
         entityFx = GetComponent<EntityFX>();

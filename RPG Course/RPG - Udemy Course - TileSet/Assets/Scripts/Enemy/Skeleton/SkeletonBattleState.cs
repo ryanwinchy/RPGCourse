@@ -55,7 +55,16 @@ public class SkeletonBattleState : EnemyState
         else if (player.position.x < enemy.transform.position.x)   //Player to left.
             moveDirection = -1;
 
+        if (enemy.IsPlayerDetected() && enemy.IsPlayerDetected().distance < enemy.attackDistance - 0.1f)   //When close enough to attack, stop moving.  IsPlayerDetected returns a raycast , so can access distance.
+            return;           //Exit update loop for this frame.
+
         enemy.SetVelocity(enemy.moveSpeed * moveDirection, rb.velocity.y);
+
+        if (enemy.IsWallDetected() || !enemy.IsGroundDetected())           //Whenever gets to edge, flips then goes to idle state for idle time.
+        {
+            enemy.Flip();
+            stateMachine.ChangeState(enemy.idleState);
+        }
     }
 
     bool canAttack()

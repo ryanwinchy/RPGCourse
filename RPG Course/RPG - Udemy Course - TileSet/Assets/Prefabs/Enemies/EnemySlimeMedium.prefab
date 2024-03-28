@@ -314,7 +314,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   damage:
-    baseValue: 10
+    baseValue: 20
     modifiers: 
   critChance:
     baseValue: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
   shockStrikePrefab: {fileID: 1488682148015968407, guid: 56546a02d2fd4d540a6699f02cf309e9, type: 3}
   currentHealth: 0
   currencyDropAmount:
-    baseValue: 0
+    baseValue: 100
     modifiers: 
   level: 0
   percentageModifier: 0

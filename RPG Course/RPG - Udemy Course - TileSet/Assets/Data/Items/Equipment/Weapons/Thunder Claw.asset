@@ -37,4 +37,6 @@ MonoBehaviour:
   lightningDamage: 5
   craftingMaterials:
   - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
-    stackSize: 13
+    stackSize: 5
+  - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
+    stackSize: 10

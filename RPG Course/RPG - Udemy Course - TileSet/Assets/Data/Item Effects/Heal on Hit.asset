@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64232e9748fcf794ead377e40eba1b92, type: 3}
   m_Name: Heal on Hit
   m_EditorClassIdentifier: 
-  effectDescription: On each hit you land heal 10%.
-  healPercent: 0.1
+  effectDescription: On each hit you land heal 5%.
+  healPercent: 0.05

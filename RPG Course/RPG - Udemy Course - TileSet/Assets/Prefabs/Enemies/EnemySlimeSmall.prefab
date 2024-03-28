@@ -102,7 +102,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1768169261
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: -10
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 0.78431374}
@@ -339,7 +339,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1768169261
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 2
   m_Sprite: {fileID: -1315825821, guid: 5b37f7e31a19796489c254db0005907c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -593,7 +593,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   damage:
-    baseValue: 10
+    baseValue: 15
     modifiers: 
   critChance:
     baseValue: 0
@@ -602,7 +602,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   maxHealth:
-    baseValue: 75
+    baseValue: 60
     modifiers: 
   armour:
     baseValue: 0
@@ -629,7 +629,7 @@ MonoBehaviour:
   shockStrikePrefab: {fileID: 1488682148015968407, guid: 56546a02d2fd4d540a6699f02cf309e9, type: 3}
   currentHealth: 0
   currencyDropAmount:
-    baseValue: 0
+    baseValue: 50
     modifiers: 
   level: 0
   percentageModifier: 0
@@ -674,8 +674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c076e08c832ad408353cbaabbaeca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDropAmount: 0
-  possibleDrops: []
+  maxDropAmount: 1
+  possibleDrops:
+  - {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
+  - {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
   dropPrefab: {fileID: 5661324897340682492, guid: e797e32825c22b842b79fb8de3b2c0be, type: 3}
 --- !u!114 &8462003444391771061
 MonoBehaviour:

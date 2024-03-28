@@ -16,9 +16,9 @@ MonoBehaviour:
   itemName: Healing Flask
   itemIcon: {fileID: -410334530, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   itemId: 44197e3bacb29c74caa28f9d64eed4bc
-  dropChance: 0
+  dropChance: 17.7
   equipmentType: 3
-  itemCooldown: 5
+  itemCooldown: 10
   itemEffects:
   - {fileID: 11400000, guid: a9805414fe6299c458d5de91424985a6, type: 2}
   strength: 0
@@ -35,4 +35,6 @@ MonoBehaviour:
   fireDamage: 0
   iceDamage: 0
   lightningDamage: 0
-  craftingMaterials: []
+  craftingMaterials:
+  - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
+    stackSize: 3

@@ -59,7 +59,11 @@ public class AudioManager : MonoBehaviour
 
     public void FadeOutVolume(int _index)
     {
-        StartCoroutine(StopSFXOverTime(sfx[_index]));
+        if (this != null)
+        {
+            StartCoroutine(StopSFXOverTime(sfx[_index]));
+        }
+
     }
 
     IEnumerator StopSFXOverTime(AudioSource _audio)        //For area sounds. Should make fade in as well, or feels too instant.

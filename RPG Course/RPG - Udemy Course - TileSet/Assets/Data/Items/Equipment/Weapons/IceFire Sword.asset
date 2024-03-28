@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: IceFire Sword
   itemIcon: {fileID: 1398721256, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   itemId: efa3f80e5cb123e4695801e2ee6c3935
-  dropChance: 10
+  dropChance: 19
   equipmentType: 0
   itemCooldown: 0
   itemEffects:
@@ -26,16 +26,18 @@ MonoBehaviour:
   agility: 0
   intelligence: 0
   vitality: 0
-  damage: 0
+  damage: 3
   critChance: 0
   critPower: 0
   maxHealth: 0
   armour: 0
   evasion: 0
   magicResistance: 0
-  fireDamage: 3
-  iceDamage: 5
+  fireDamage: 5
+  iceDamage: 8
   lightningDamage: 0
   craftingMaterials:
   - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
-    stackSize: 1
+    stackSize: 10
+  - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
+    stackSize: 2

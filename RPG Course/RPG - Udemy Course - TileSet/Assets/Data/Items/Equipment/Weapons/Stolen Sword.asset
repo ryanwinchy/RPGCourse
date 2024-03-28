@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Stolen Sword
   itemIcon: {fileID: 367297872, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   itemId: d5b614b298dc2c645a4f9bf6b71bbede
-  dropChance: 29.8
+  dropChance: 5
   equipmentType: 0
   itemCooldown: 0
   itemEffects: []
@@ -36,6 +36,6 @@ MonoBehaviour:
   lightningDamage: 0
   craftingMaterials:
   - itemData: {fileID: 11400000, guid: 32cb7d9f11864714f9c8d318a5cd4747, type: 2}
-    stackSize: 2
+    stackSize: 4
   - itemData: {fileID: 11400000, guid: 41d8af46035bb564ebf7ccd490b4b8d8, type: 2}
-    stackSize: 15
+    stackSize: 4

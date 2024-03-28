@@ -19,7 +19,6 @@ public class EnemyStats : CharacterStats
 
     protected override void Start()
     {
-        currencyDropAmount.SetDefaultValue(100);
 
         ApplyLevelModifiers();
 

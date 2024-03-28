@@ -60,6 +60,12 @@ public class SlimeBattleState : EnemyState
 
 
         enemy.SetVelocity(enemy.moveSpeed * moveDirection, rb.velocity.y);
+
+        if (enemy.IsWallDetected() || !enemy.IsGroundDetected())           //Whenever gets to edge, flips then goes to idle state for idle time.
+        {
+            enemy.Flip();
+            stateMachine.ChangeState(enemy.idleState);
+        }
     }
 
     bool canAttack()
